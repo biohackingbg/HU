@@ -1,0 +1,115 @@
+// Health Upgrade — data model for user accounts and orders.
+// SQLite for local development; migrate the datasource to Postgres for production.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  firstName    String?
+  lastName     String?
+  // customer | admin
+  role         String    @default("customer")
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  sessions     Session[]
+  orders       Order[]
+  addresses    Address[]
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  orderNumber String      @unique
+  // Optional so guests can check out; set when a logged-in user orders.
+  userId      String?
+  user        User?       @relation(fields: [userId], references: [id], onDelete: SetNull)
+  // Guest/contact details
+  email       String?
+  phone       String?
+  // processing | shipped | delivered | cancelled
+  status      String      @default("processing")
+  currency    String      @default("EUR")
+  // cod | card
+  paymentMethod String    @default("cod")
+  // pending | paid
+  paymentStatus String    @default("pending")
+  paymentIntentId String? @unique
+  // econt_address | econt_office | econt_machine
+  shippingMethod String?
+  // monetary values are stored in cents
+  subtotal    Int
+  shipping    Int         @default(0)
+  total       Int
+  // shipping snapshot
+  shipName    String?
+  shipLine1   String?
+  shipCity    String?
+  shipPostcode String?
+  shipOffice  String?
+  carrier     String?
+  trackingNo  String?
+  placedAt    DateTime    @default(now())
+  items       OrderItem[]
+
+  @@index([userId])
+}
+
+model OrderItem {
+  id          String  @id @default(cuid())
+  orderId     String
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productName String
+  variant     String?
+  // cents
+  unitPrice   Int
+  quantity    Int
+  imageUrl    String?
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  label     String?
+  fullName  String
+  line1     String
+  line2     String?
+  city      String
+  postcode  String
+  country   String   @default("BG")
+  phone     String?
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  userId    String
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}

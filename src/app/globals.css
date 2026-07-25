@@ -2,25 +2,114 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a2540;
+
+  /* Health Upgrade brand palette — sampled from logo.png / neuromag6-hero.png */
+  --color-brand-sky-50: #eef7ff;
+  --color-brand-sky-100: #d8ecff;
+  --color-brand-sky-200: #b3dcff;
+  --color-brand-sky-300: #afd3f4; /* lighter background plane from mockup */
+  --color-brand-sky-400: #8fc6f3;
+  --color-brand-sky-500: #7fc3ff; /* primary — logo background */
+  --color-brand-sky-600: #4fa3e8;
+  --color-brand-sky-700: #2f7fc4;
+
+  --color-brand-navy-500: #0a2540; /* primary ink — logo/label text */
+  --color-brand-navy-700: #071a2e;
+  --color-brand-navy-900: #040f1c;
+
+  --color-brand-sand: #c9c0ba; /* ceramic plate neutral */
+  --color-brand-mist: #dadade; /* off-white ridged surface */
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-brand-sky-50: var(--color-brand-sky-50);
+  --color-brand-sky-100: var(--color-brand-sky-100);
+  --color-brand-sky-200: var(--color-brand-sky-200);
+  --color-brand-sky-300: var(--color-brand-sky-300);
+  --color-brand-sky-400: var(--color-brand-sky-400);
+  --color-brand-sky-500: var(--color-brand-sky-500);
+  --color-brand-sky-600: var(--color-brand-sky-600);
+  --color-brand-sky-700: var(--color-brand-sky-700);
+  --color-brand-navy-500: var(--color-brand-navy-500);
+  --color-brand-navy-700: var(--color-brand-navy-700);
+  --color-brand-navy-900: var(--color-brand-navy-900);
+  --color-brand-sand: var(--color-brand-sand);
+  --color-brand-mist: var(--color-brand-mist);
+
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+  --font-mono: var(--font-geist-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+.legal-content h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--color-brand-navy-500);
+  margin-top: 1rem;
+}
+
+.legal-content h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: var(--color-brand-navy-500);
+  margin-top: 0.5rem;
+}
+
+.legal-content p,
+.legal-content li {
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-brand-navy-500) 75%, transparent);
+}
+
+.legal-content ul,
+.legal-content ol {
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.legal-content ul {
+  list-style: disc;
+}
+
+.legal-content ol {
+  list-style: decimal;
+}
+
+.legal-content section {
+  border-top: 1px solid color-mix(in srgb, var(--color-brand-navy-500) 8%, transparent);
+  padding-top: 1.75rem;
+}
+
+.legal-content section:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.legal-content a {
+  color: var(--color-brand-sky-600);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.legal-content code {
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  background: var(--color-brand-sky-50);
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.3rem;
 }

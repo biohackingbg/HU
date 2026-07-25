@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "health-upgrade-dev",
+      "runtimeExecutable": "/Users/ema/.nvm/versions/node/v24.18.0/bin/node",
+      "runtimeArgs": ["/Users/ema/Desktop/Claude/scripts/dev-entry.cjs", "dev", "--webpack"],
+      "port": 3000
+    }
+  ]
+}

@@ -1,0 +1,386 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCart } from "@/components/cart/CartProvider";
+import { StripePayment } from "@/components/checkout/StripePayment";
+import { placeOrder } from "@/lib/actions/checkout";
+import { shippingCents, shippingMethods } from "@/lib/checkout-config";
+import { formatCentsBgn, formatCentsEur } from "@/lib/orders";
+
+type Errors = Record<string, string>;
+
+export function CheckoutView({
+  stripeEnabled,
+  publishableKey,
+}: {
+  stripeEnabled: boolean;
+  publishableKey?: string;
+}) {
+  const { items, subtotalCents, clear, ready } = useCart();
+  const router = useRouter();
+
+  const [shippingMethod, setShippingMethod] = useState(shippingMethods[0].id);
+  const [paymentMethod, setPaymentMethod] = useState<"cod" | "card">("cod");
+  const [errors, setErrors] = useState<Errors>({});
+  const [formError, setFormError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const [card, setCard] = useState<{
+    clientSecret: string;
+    orderNumber: string;
+  } | null>(null);
+
+  if (!ready) return <p className="text-brand-navy-500/50">Зареждане…</p>;
+
+  if (items.length === 0 && !card) {
+    return (
+      <div className="rounded-3xl border border-brand-navy-500/10 bg-white p-10 text-center">
+        <p className="text-lg text-brand-navy-500/60">Количката ти е празна.</p>
+        <Link
+          href="/produkt/neuromag-6"
+          className="mt-5 inline-flex rounded-full bg-brand-navy-500 px-6 py-3 text-sm font-semibold text-white hover:bg-brand-navy-700"
+        >
+          Разгледай продуктите
+        </Link>
+      </div>
+    );
+  }
+
+  const shipping = shippingCents(subtotalCents);
+  const total = subtotalCents + shipping;
+  const needsAddress = shippingMethod === "econt_address";
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setPending(true);
+    setErrors({});
+    setFormError(null);
+
+    const fd = new FormData(e.currentTarget);
+    const payload = {
+      email: String(fd.get("email") ?? ""),
+      phone: String(fd.get("phone") ?? ""),
+      firstName: String(fd.get("firstName") ?? ""),
+      lastName: String(fd.get("lastName") ?? ""),
+      shippingMethod,
+      city: String(fd.get("city") ?? ""),
+      postcode: String(fd.get("postcode") ?? ""),
+      address: String(fd.get("address") ?? ""),
+      office: String(fd.get("office") ?? ""),
+      paymentMethod,
+      items: items.map((i) => ({ id: i.id, quantity: i.quantity })),
+    };
+
+    const result = await placeOrder(payload);
+    setPending(false);
+
+    if (!result.ok) {
+      if (result.fieldErrors) setErrors(result.fieldErrors);
+      if (result.error) setFormError(result.error);
+      return;
+    }
+
+    if (result.clientSecret && result.orderNumber) {
+      // Card: keep the cart until payment confirms, show the payment step.
+      setCard({
+        clientSecret: result.clientSecret,
+        orderNumber: result.orderNumber,
+      });
+      return;
+    }
+
+    // Cash on delivery: order placed.
+    clear();
+    router.push(`/plashtane/uspeh?n=${result.orderNumber ?? ""}`);
+  }
+
+  // Payment step (card)
+  if (card && stripeEnabled && publishableKey) {
+    return (
+      <div className="mx-auto max-w-md">
+        <h2 className="font-display text-lg font-bold text-brand-navy-500">
+          Плащане с карта
+        </h2>
+        <p className="mt-1 text-sm text-brand-navy-500/55">
+          Поръчка №{card.orderNumber} · {formatCentsEur(total)}
+        </p>
+        <div className="mt-6 rounded-3xl border border-brand-navy-500/10 bg-white p-6">
+          <StripePayment
+            clientSecret={card.clientSecret}
+            publishableKey={publishableKey}
+            orderNumber={card.orderNumber}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="grid gap-8 lg:grid-cols-[1fr_360px]">
+      <div className="space-y-8">
+        {formError && (
+          <p className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-600">
+            {formError}
+          </p>
+        )}
+
+        {/* Contact */}
+        <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
+          <h2 className="font-display font-bold text-brand-navy-500">
+            Контакти
+          </h2>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <Input label="Име" name="firstName" error={errors.firstName} />
+            <Input label="Фамилия" name="lastName" />
+            <Input
+              label="Имейл"
+              name="email"
+              type="email"
+              error={errors.email}
+            />
+            <Input label="Телефон" name="phone" error={errors.phone} />
+          </div>
+        </section>
+
+        {/* Shipping */}
+        <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
+          <h2 className="font-display font-bold text-brand-navy-500">
+            Доставка с Еконт
+          </h2>
+          <div className="mt-4 space-y-2">
+            {shippingMethods.map((m) => (
+              <label
+                key={m.id}
+                className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-colors ${
+                  shippingMethod === m.id
+                    ? "border-brand-navy-500 bg-brand-sky-50"
+                    : "border-brand-navy-500/15 hover:border-brand-navy-500/30"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="shippingMethod"
+                  checked={shippingMethod === m.id}
+                  onChange={() => setShippingMethod(m.id)}
+                  className="mt-1"
+                />
+                <span>
+                  <span className="block font-medium text-brand-navy-500">
+                    {m.label}
+                  </span>
+                  <span className="text-sm text-brand-navy-500/55">
+                    {m.note}
+                  </span>
+                </span>
+              </label>
+            ))}
+          </div>
+
+          {needsAddress ? (
+            <div className="mt-4 grid gap-4 sm:grid-cols-2">
+              <Input label="Град" name="city" error={errors.city} />
+              <Input label="Пощенски код" name="postcode" />
+              <div className="sm:col-span-2">
+                <Input
+                  label="Адрес (улица, номер, ет., ап.)"
+                  name="address"
+                  error={errors.address}
+                />
+              </div>
+            </div>
+          ) : (
+            <div className="mt-4">
+              <div className="mb-2 flex items-center justify-between">
+                <label
+                  htmlFor="office"
+                  className="text-sm font-medium text-brand-navy-500"
+                >
+                  Офис / автомат на Еконт
+                </label>
+                <a
+                  href="https://offices.econt.com/?country=bg&source_url=healthupgrade.bg"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm font-semibold text-brand-sky-600 hover:underline"
+                >
+                  Виж картата на Еконт →
+                </a>
+              </div>
+              <input
+                id="office"
+                name="office"
+                placeholder="Град и офис/автомат (напр. София, Автомат Младост 1)"
+                className={`w-full rounded-xl border bg-white px-4 py-2.5 text-brand-navy-500 outline-none transition-colors placeholder:text-brand-navy-500/35 focus:border-brand-navy-500 ${
+                  errors.office ? "border-red-400" : "border-brand-navy-500/15"
+                }`}
+              />
+              {errors.office && (
+                <p className="mt-1.5 text-sm text-red-500">{errors.office}</p>
+              )}
+              <p className="mt-2 text-xs text-brand-navy-500/45">
+                Избери от картата и въведи офиса/автомата тук. Автоматичен избор
+                от картата предстои.
+              </p>
+            </div>
+          )}
+        </section>
+
+        {/* Payment */}
+        <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
+          <h2 className="font-display font-bold text-brand-navy-500">
+            Плащане
+          </h2>
+          <div className="mt-4 space-y-2">
+            <label
+              className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-colors ${
+                paymentMethod === "cod"
+                  ? "border-brand-navy-500 bg-brand-sky-50"
+                  : "border-brand-navy-500/15 hover:border-brand-navy-500/30"
+              }`}
+            >
+              <input
+                type="radio"
+                name="paymentMethod"
+                checked={paymentMethod === "cod"}
+                onChange={() => setPaymentMethod("cod")}
+                className="mt-1"
+              />
+              <span>
+                <span className="block font-medium text-brand-navy-500">
+                  Наложен платеж
+                </span>
+                <span className="text-sm text-brand-navy-500/55">
+                  Плащаш при получаване на пратката
+                </span>
+              </span>
+            </label>
+
+            {stripeEnabled ? (
+              <label
+                className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-colors ${
+                  paymentMethod === "card"
+                    ? "border-brand-navy-500 bg-brand-sky-50"
+                    : "border-brand-navy-500/15 hover:border-brand-navy-500/30"
+                }`}
+              >
+                <input
+                  type="radio"
+                  name="paymentMethod"
+                  checked={paymentMethod === "card"}
+                  onChange={() => setPaymentMethod("card")}
+                  className="mt-1"
+                />
+                <span>
+                  <span className="block font-medium text-brand-navy-500">
+                    Карта · Apple Pay · Google Pay
+                  </span>
+                  <span className="text-sm text-brand-navy-500/55">
+                    Сигурно плащане чрез Stripe
+                  </span>
+                </span>
+              </label>
+            ) : (
+              <p className="rounded-2xl border border-dashed border-brand-navy-500/15 p-4 text-sm text-brand-navy-500/45">
+                Плащане с карта, Apple Pay и Google Pay — активира се след
+                добавяне на Stripe ключове.
+              </p>
+            )}
+          </div>
+        </section>
+      </div>
+
+      {/* Summary */}
+      <div className="lg:sticky lg:top-28 lg:self-start">
+        <div className="rounded-3xl border border-brand-navy-500/10 bg-white p-6">
+          <h2 className="font-display font-bold text-brand-navy-500">
+            Поръчка
+          </h2>
+          <ul className="mt-4 space-y-3 text-sm">
+            {items.map((i) => (
+              <li key={i.id} className="flex justify-between gap-3">
+                <span className="text-brand-navy-500/70">
+                  {i.name} × {i.quantity}
+                </span>
+                <span className="text-brand-navy-500">
+                  {formatCentsEur(i.unitPriceCents * i.quantity)}
+                </span>
+              </li>
+            ))}
+          </ul>
+          <dl className="mt-4 space-y-2 border-t border-brand-navy-500/8 pt-4 text-sm">
+            <div className="flex justify-between">
+              <dt className="text-brand-navy-500/60">Междинна сума</dt>
+              <dd className="text-brand-navy-500">
+                {formatCentsEur(subtotalCents)}
+              </dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-brand-navy-500/60">Доставка</dt>
+              <dd className="text-brand-navy-500">
+                {shipping === 0 ? "Безплатна" : formatCentsEur(shipping)}
+              </dd>
+            </div>
+            <div className="flex justify-between border-t border-brand-navy-500/8 pt-2 text-base font-semibold">
+              <dt className="text-brand-navy-500">Общо</dt>
+              <dd className="text-brand-navy-500">
+                {formatCentsEur(total)}{" "}
+                <span className="text-xs font-normal text-brand-navy-500/45">
+                  ({formatCentsBgn(total)})
+                </span>
+              </dd>
+            </div>
+          </dl>
+
+          <button
+            type="submit"
+            disabled={pending}
+            className="mt-6 w-full rounded-full bg-brand-navy-500 px-6 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-brand-navy-700 disabled:opacity-60"
+          >
+            {pending
+              ? "Обработка…"
+              : paymentMethod === "card"
+                ? "Продължи към плащане"
+                : "Завърши поръчката"}
+          </button>
+          <p className="mt-3 text-center text-xs text-brand-navy-500/45">
+            Доставката е ориентировъчна; изчислява се точно при обработка.
+          </p>
+        </div>
+      </div>
+    </form>
+  );
+}
+
+function Input({
+  label,
+  name,
+  type = "text",
+  error,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  error?: string;
+}) {
+  return (
+    <div>
+      <label
+        htmlFor={name}
+        className="block text-sm font-medium text-brand-navy-500"
+      >
+        {label}
+      </label>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        aria-invalid={error ? true : undefined}
+        className={`mt-1.5 w-full rounded-xl border bg-white px-4 py-2.5 text-brand-navy-500 outline-none transition-colors placeholder:text-brand-navy-500/35 focus:border-brand-navy-500 ${
+          error ? "border-red-400" : "border-brand-navy-500/15"
+        }`}
+      />
+      {error && <p className="mt-1.5 text-sm text-red-500">{error}</p>}
+    </div>
+  );
+}
