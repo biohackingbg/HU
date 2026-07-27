@@ -50,19 +50,21 @@ export async function updateOrderStatusAction(
       orderNumber: true,
       trackingNo: true,
       carrier: true,
+      email: true,
       user: { select: { email: true } },
     },
   });
 
   // Notify the customer when the status actually changes.
-  if (before && before.status !== status) {
+  const recipient = order.user?.email ?? order.email;
+  if (before && before.status !== status && recipient) {
     const label = statusInfo(status).label;
     const tracking =
       status === "shipped" && order.carrier && order.trackingNo
         ? `\n\nПроследяване: ${order.carrier} · ${order.trackingNo}`
         : "";
     await sendEmail({
-      to: order.user.email,
+      to: recipient,
       subject: `Поръчка №${order.orderNumber} — ${label}`,
       text: `Статусът на поръчка №${order.orderNumber} е обновен на: ${label}.${tracking}\n\nМожеш да видиш детайлите в акаунта си: /akaunt/porachki/${order.id}`,
     });
