@@ -39,6 +39,12 @@ export default async function AdminLayout({
             >
               Отзиви
             </Link>
+            <Link
+              href="/admin/test-leads"
+              className="font-medium text-brand-navy-500/70 hover:text-brand-navy-500"
+            >
+              Лийдове от теста
+            </Link>
             <span className="hidden text-brand-navy-500/40 sm:inline">
               {admin.email}
             </span>
