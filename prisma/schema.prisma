@@ -1,12 +1,13 @@
 // Health Upgrade — data model for user accounts and orders.
-// SQLite for local development; migrate the datasource to Postgres for production.
+// Postgres (Neon, hosted on Vercel). Local dev and production share this
+// database via DATABASE_URL.
 
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
