@@ -59,6 +59,8 @@ model Order {
   shippingMethod String?
   // monetary values are stored in cents
   subtotal    Int
+  discount    Int         @default(0)
+  promoCode   String?
   shipping    Int         @default(0)
   total       Int
   // shipping snapshot
@@ -142,6 +144,17 @@ model BloodWaitlist {
   id        String   @id @default(cuid())
   email     String   @unique
   createdAt DateTime @default(now())
+}
+
+/// Optional lead capture from the "Направи теста" magnesium quiz.
+model QuizLead {
+  id        String   @id @default(cuid())
+  email     String
+  // Result category id, e.g. "sleep" | "stress" | "energy" | "recovery".
+  category  String
+  createdAt DateTime @default(now())
+
+  @@index([email])
 }
 
 model PasswordResetToken {

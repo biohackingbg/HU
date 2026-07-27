@@ -71,6 +71,7 @@ export const checkoutSchema = z
     address: z.string().trim().max(300).optional().or(z.literal("")),
     office: z.string().trim().max(300).optional().or(z.literal("")),
     paymentMethod: z.enum(["cod", "card"]),
+    promoCode: z.string().trim().max(40).optional().or(z.literal("")),
     items: z
       .array(
         z.object({

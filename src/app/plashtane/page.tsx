@@ -9,7 +9,13 @@ export const metadata: Metadata = {
   title: "Плащане | Health Upgrade",
 };
 
-export default function CheckoutPage() {
+export default async function CheckoutPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ promo?: string }>;
+}) {
+  const { promo } = await searchParams;
+
   return (
     <>
       <Navbar />
@@ -21,6 +27,7 @@ export default function CheckoutPage() {
           <CheckoutView
             stripeEnabled={stripeEnabled}
             publishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+            initialPromoCode={promo}
           />
         </Container>
       </main>

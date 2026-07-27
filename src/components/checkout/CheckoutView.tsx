@@ -1,22 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart/CartProvider";
 import { StripePayment } from "@/components/checkout/StripePayment";
-import { placeOrder } from "@/lib/actions/checkout";
+import { placeOrder, previewPromoCode } from "@/lib/actions/checkout";
 import { shippingCents, shippingMethods } from "@/lib/checkout-config";
 import { formatCentsBgn, formatCentsEur } from "@/lib/orders";
 
 type Errors = Record<string, string>;
+type AppliedPromo = { code: string; percentOff: number; label: string };
 
 export function CheckoutView({
   stripeEnabled,
   publishableKey,
+  initialPromoCode,
 }: {
   stripeEnabled: boolean;
   publishableKey?: string;
+  initialPromoCode?: string;
 }) {
   const { items, subtotalCents, clear, ready } = useCart();
   const router = useRouter();
@@ -30,6 +33,50 @@ export function CheckoutView({
     clientSecret: string;
     orderNumber: string;
   } | null>(null);
+
+  const [promoInput, setPromoInput] = useState(initialPromoCode ?? "");
+  const [appliedPromo, setAppliedPromo] = useState<AppliedPromo | null>(null);
+  const [promoError, setPromoError] = useState<string | null>(null);
+  const [promoPending, setPromoPending] = useState(false);
+  const autoAppliedRef = useRef(false);
+
+  async function applyPromo(code: string) {
+    const trimmed = code.trim();
+    if (!trimmed) return;
+    setPromoPending(true);
+    setPromoError(null);
+    const result = await previewPromoCode(trimmed);
+    setPromoPending(false);
+    if (!result.ok || !result.percentOff || !result.label) {
+      setAppliedPromo(null);
+      setPromoError(result.error ?? "Невалиден промо код.");
+      return;
+    }
+    setAppliedPromo({
+      code: trimmed.toUpperCase(),
+      percentOff: result.percentOff,
+      label: result.label,
+    });
+  }
+
+  // Auto-apply a code passed in via ?promo=, or one earned earlier (e.g. from
+  // the quiz) and remembered in localStorage so it survives PDP → cart → here.
+  useEffect(() => {
+    if (autoAppliedRef.current) return;
+    const stored = (() => {
+      try {
+        return localStorage.getItem("hu_quiz_promo");
+      } catch {
+        return null;
+      }
+    })();
+    const code = initialPromoCode || stored;
+    if (code) {
+      autoAppliedRef.current = true;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      applyPromo(code);
+    }
+  }, [initialPromoCode]);
 
   if (!ready) return <p className="text-brand-navy-500/50">Зареждане…</p>;
 
@@ -47,8 +94,11 @@ export function CheckoutView({
     );
   }
 
-  const shipping = shippingCents(subtotalCents);
-  const total = subtotalCents + shipping;
+  const discount = appliedPromo
+    ? Math.round((subtotalCents * appliedPromo.percentOff) / 100)
+    : 0;
+  const shipping = shippingCents(subtotalCents - discount);
+  const total = subtotalCents - discount + shipping;
   const needsAddress = shippingMethod === "econt_address";
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -69,6 +119,7 @@ export function CheckoutView({
       address: String(fd.get("address") ?? ""),
       office: String(fd.get("office") ?? ""),
       paymentMethod,
+      promoCode: appliedPromo?.code ?? "",
       items: items.map((i) => ({ id: i.id, quantity: i.quantity })),
     };
 
@@ -288,6 +339,57 @@ export function CheckoutView({
             )}
           </div>
         </section>
+
+        {/* Promo code */}
+        <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
+          <h2 className="font-display font-bold text-brand-navy-500">
+            Промо код
+          </h2>
+          {appliedPromo ? (
+            <div className="mt-4 flex items-center justify-between rounded-2xl bg-emerald-50 px-4 py-3">
+              <div>
+                <p className="font-semibold text-emerald-700">
+                  {appliedPromo.code} приложен
+                </p>
+                <p className="text-sm text-emerald-600/80">
+                  {appliedPromo.label}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  setAppliedPromo(null);
+                  setPromoInput("");
+                }}
+                className="text-sm font-medium text-emerald-700 underline"
+              >
+                Премахни
+              </button>
+            </div>
+          ) : (
+            <div className="mt-4">
+              <div className="flex gap-2">
+                <input
+                  value={promoInput}
+                  onChange={(e) => setPromoInput(e.target.value)}
+                  placeholder="напр. MAG10"
+                  className="w-full rounded-xl border border-brand-navy-500/15 bg-white px-4 py-2.5 text-brand-navy-500 outline-none transition-colors placeholder:text-brand-navy-500/35 focus:border-brand-navy-500"
+                />
+                <button
+                  type="button"
+                  disabled={promoPending}
+                  onClick={() => applyPromo(promoInput)}
+                  className="shrink-0 rounded-xl border border-brand-navy-500/15 px-5 py-2.5 text-sm font-semibold text-brand-navy-500 transition-colors hover:border-brand-navy-500/40 disabled:opacity-60"
+                >
+                  {promoPending ? "…" : "Приложи"}
+                </button>
+              </div>
+              {promoError && (
+                <p className="mt-1.5 text-sm text-red-500">{promoError}</p>
+              )}
+            </div>
+          )}
+        </section>
       </div>
 
       {/* Summary */}
@@ -315,6 +417,16 @@ export function CheckoutView({
                 {formatCentsEur(subtotalCents)}
               </dd>
             </div>
+            {discount > 0 && (
+              <div className="flex justify-between">
+                <dt className="text-emerald-600">
+                  Отстъпка ({appliedPromo?.code})
+                </dt>
+                <dd className="text-emerald-600">
+                  −{formatCentsEur(discount)}
+                </dd>
+              </div>
+            )}
             <div className="flex justify-between">
               <dt className="text-brand-navy-500/60">Доставка</dt>
               <dd className="text-brand-navy-500">

@@ -159,6 +159,16 @@ export default async function OrderDetailPage({
               {formatCentsEur(order.subtotal)}
             </dd>
           </div>
+          {order.discount > 0 && (
+            <div className="flex justify-between">
+              <dt className="text-emerald-600">
+                Отстъпка{order.promoCode ? ` (${order.promoCode})` : ""}
+              </dt>
+              <dd className="text-emerald-600">
+                −{formatCentsEur(order.discount)}
+              </dd>
+            </div>
+          )}
           <div className="flex justify-between">
             <dt className="text-brand-navy-500/60">Доставка</dt>
             <dd className="text-brand-navy-500">
