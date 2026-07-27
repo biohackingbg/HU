@@ -6,6 +6,7 @@ import { neuromag6 } from "@/lib/product";
  */
 
 export type CatalogEntry = {
+  slug: string;
   name: string;
   variantLabel: string;
   unitPriceCents: number;
@@ -15,6 +16,7 @@ export type CatalogEntry = {
 
 const catalog: Record<string, CatalogEntry> = {
   "neuromag-6:subscribe": {
+    slug: "neuromag-6",
     name: "Neuromag 6™",
     variantLabel: "60 капсули · абонамент",
     unitPriceCents: Math.round(neuromag6.priceSubscribe * 100),
@@ -22,6 +24,7 @@ const catalog: Record<string, CatalogEntry> = {
     recurring: true,
   },
   "neuromag-6:onetime": {
+    slug: "neuromag-6",
     name: "Neuromag 6™",
     variantLabel: "60 капсули · еднократна покупка",
     unitPriceCents: Math.round(neuromag6.priceOneTime * 100),

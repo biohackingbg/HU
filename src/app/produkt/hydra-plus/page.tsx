@@ -10,11 +10,11 @@ import {
   DifferenceSection,
   HowToUseSection,
   HydraFaqSection,
-  SystemSection,
   WhatsInsideSection,
   WhoForSection,
   WhyHydra,
 } from "@/components/hydra/HydraSections";
+import { SystemLineup } from "@/components/sections/SystemLineup";
 
 export const metadata: Metadata = {
   title: "Hydra+ — Daily Hydration System | Health Upgrade",
@@ -47,7 +47,7 @@ export default function HydraPlusPage() {
         <WhatsInsideSection />
         <HowToUseSection />
         <CleanLabelSection />
-        <SystemSection />
+        <SystemLineup currentSlug="hydration" />
         <HydraFaqSection />
       </main>
       <Footer />

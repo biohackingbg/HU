@@ -86,6 +86,7 @@ export async function placeOrder(
       carrier: "Еконт",
       items: {
         create: lines.map((l) => ({
+          productSlug: l.entry.slug,
           productName: l.entry.name,
           variant: l.entry.variantLabel,
           unitPrice: l.entry.unitPriceCents,

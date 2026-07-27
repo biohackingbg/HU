@@ -18,9 +18,19 @@ import {
 } from "@/components/product/InfoSlides";
 import { IngredientsTable } from "@/components/product/IngredientsTable";
 import { FunctionSection } from "@/components/product/FunctionSection";
+import { MagnesiumNeed } from "@/components/product/MagnesiumNeed";
+import { Packaging } from "@/components/product/Packaging";
+import { SystemLineup } from "@/components/sections/SystemLineup";
 import { HowToUse } from "@/components/product/HowToUse";
 import { ClinicalResearch } from "@/components/product/ClinicalResearch";
 import { UsageFaq } from "@/components/product/UsageFaq";
+import { ReviewsSection } from "@/components/reviews/ReviewsSection";
+import { RatingLink } from "@/components/reviews/RatingLink";
+import { ProductJsonLd } from "@/components/reviews/ProductJsonLd";
+
+import { neuromag6 } from "@/lib/product";
+
+const PRODUCT_SLUG = "neuromag-6";
 
 const gallerySlides = [
   {
@@ -123,6 +133,8 @@ export default function Neuromag6Page() {
               Premium 6-Form Magnesium System — Brain · Sleep · Recovery
             </p>
 
+            <RatingLink productSlug={PRODUCT_SLUG} />
+
             <ul className="mt-6 space-y-2.5">
               {keyPoints.map((point) => (
                 <CheckItem key={point}>{point}</CheckItem>
@@ -134,6 +146,9 @@ export default function Neuromag6Page() {
             </div>
           </div>
         </Container>
+
+        {/* Problem awareness — why someone might need magnesium at all */}
+        <MagnesiumNeed />
 
         {/* Why Neuromag 6 / Function */}
         <section className="bg-brand-sky-50 py-20">
@@ -170,6 +185,9 @@ export default function Neuromag6Page() {
           </Container>
         </section>
 
+        {/* Packaging */}
+        <Packaging />
+
         {/* FAQ */}
         <section className="bg-brand-sky-50 py-20">
           <Container>
@@ -177,9 +195,22 @@ export default function Neuromag6Page() {
             <UsageFaq />
           </Container>
         </section>
+
+        {/* Reviews */}
+        <ReviewsSection productSlug={PRODUCT_SLUG} />
+
+        {/* Cross-sell: the rest of the system line-up */}
+        <SystemLineup currentSlug="nervous" />
       </main>
       <StickyBuyBar targetId="kupi" />
       <Footer />
+      <ProductJsonLd
+        productSlug={PRODUCT_SLUG}
+        name="Neuromag 6™"
+        description="6 високобиодостъпни форми магнезий, подсилени с витамин D3, B6, цинк и калий."
+        image="/brand/neuromag6-jar.png"
+        priceEur={neuromag6.priceOneTime}
+      />
     </>
   );
 }

@@ -169,31 +169,6 @@ export const cleanLabel = [
   "Без лактоза",
 ];
 
-export const systemProducts = [
-  {
-    name: "Neuromag 6™",
-    system: "Premium Nervous System Support",
-    status: "live" as const,
-    href: "/produkt/neuromag-6",
-  },
-  {
-    name: "Hydra+",
-    system: "Daily Hydration System",
-    status: "current" as const,
-    href: "/produkt/hydra-plus",
-  },
-  {
-    name: "Metabolic+",
-    system: "Metabolic System Support",
-    status: "soon" as const,
-  },
-  {
-    name: "Microbiome+",
-    system: "Gut System Support",
-    status: "soon" as const,
-  },
-];
-
 export const hydraFaq = [
   {
     q: "Мога ли да пия Hydra+ всеки ден?",

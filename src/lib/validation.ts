@@ -101,6 +101,17 @@ export const checkoutSchema = z
 
 export type CheckoutInput = z.infer<typeof checkoutSchema>;
 
+export const reviewSchema = z.object({
+  productSlug: z.string().trim().min(1),
+  rating: z.coerce.number().int().min(1, "Изберете оценка").max(5),
+  title: z.string().trim().max(120).optional().or(z.literal("")),
+  body: z
+    .string()
+    .trim()
+    .min(10, "Отзивът трябва да е поне 10 символа")
+    .max(3000, "Отзивът е твърде дълъг"),
+});
+
 const ORDER_STATUSES = [
   "processing",
   "shipped",

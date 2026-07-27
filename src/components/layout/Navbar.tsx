@@ -5,7 +5,10 @@ import { Logo } from "@/components/ui/Logo";
 import { SystemsMenu } from "@/components/layout/SystemsMenu";
 import { CartButton } from "@/components/cart/CartButton";
 
-const links = [{ href: "/sustavki", label: "Съставки" }];
+const links = [
+  { href: "/blood", label: "Blood" },
+  { href: "/sustavki", label: "Съставки" },
+];
 
 function ProfileIcon() {
   return (

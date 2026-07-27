@@ -23,6 +23,7 @@ model User {
   sessions     Session[]
   orders       Order[]
   addresses    Address[]
+  reviews      Review[]
 }
 
 model Session {
@@ -69,6 +70,7 @@ model Order {
   trackingNo  String?
   placedAt    DateTime    @default(now())
   items       OrderItem[]
+  reviews     Review[]
 
   @@index([userId])
 }
@@ -77,12 +79,16 @@ model OrderItem {
   id          String  @id @default(cuid())
   orderId     String
   order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  // Stable product identifier (e.g. "neuromag-6") used to verify purchases.
+  productSlug String  @default("")
   productName String
   variant     String?
   // cents
   unitPrice   Int
   quantity    Int
   imageUrl    String?
+
+  @@index([productSlug])
 }
 
 model Address {
@@ -101,6 +107,40 @@ model Address {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+/// Product review. Only created for users with a matching delivered order,
+/// so every review is a verified purchase.
+model Review {
+  id          String   @id @default(cuid())
+  productSlug String
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  // The order that proves the purchase.
+  orderId     String
+  order       Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  // 1–5
+  rating      Int
+  title       String?
+  body        String
+  // pending | approved | rejected
+  status      String   @default("pending")
+  // Admin note when rejecting (internal only).
+  moderationNote String?
+  helpfulCount Int     @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // One review per product per customer.
+  @@unique([userId, productSlug])
+  @@index([productSlug, status])
+}
+
+/// Interest sign-ups for the (not yet launched) Blood testing service.
+model BloodWaitlist {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
 }
 
 model PasswordResetToken {

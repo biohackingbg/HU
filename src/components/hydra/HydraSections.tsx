@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { CheckItem } from "@/components/ui/CheckItem";
 import {
@@ -7,7 +6,6 @@ import {
   differencePillars,
   howToUseOccasions,
   hydraFaq,
-  systemProducts,
   whatsInside,
   whoForItems,
 } from "@/lib/hydra";
@@ -310,64 +308,6 @@ export function CleanLabelSection() {
               <span className="text-sm font-medium text-white">{item}</span>
             </div>
           ))}
-        </div>
-      </Container>
-    </section>
-  );
-}
-
-/* ---------- The Health Upgrade System ---------- */
-
-export function SystemSection() {
-  return (
-    <section className="py-20 lg:py-28">
-      <Container>
-        <SectionHeading
-          eyebrow="Системата"
-          title="Health Upgrade системата"
-          intro="Hydra+ е част от Health Upgrade системата. Всеки продукт е създаден да подкрепя конкретна система в тялото."
-        />
-        <div className="grid gap-4 sm:grid-cols-2">
-          {systemProducts.map((product) => {
-            const inner = (
-              <>
-                <div className="flex items-center justify-between">
-                  <h3 className="font-display text-lg font-bold text-brand-navy-500">
-                    {product.name}
-                  </h3>
-                  {product.status === "soon" && (
-                    <span className="rounded-full bg-brand-navy-500/5 px-2.5 py-1 text-xs font-medium text-brand-navy-500/45">
-                      Скоро
-                    </span>
-                  )}
-                  {product.status === "current" && (
-                    <span className="rounded-full bg-brand-sky-100 px-2.5 py-1 text-xs font-medium text-brand-sky-700">
-                      Разглеждаш
-                    </span>
-                  )}
-                </div>
-                <p className="mt-1 text-sm text-brand-navy-500/60">
-                  {product.system}
-                </p>
-              </>
-            );
-
-            const base =
-              "rounded-2xl border p-6 transition-colors " +
-              (product.status === "soon"
-                ? "border-brand-navy-500/10 opacity-60"
-                : "border-brand-navy-500/10 hover:border-brand-navy-500/30");
-
-            return product.href ? (
-              <Link key={product.name} href={product.href} className={base}>
-                {inner}
-              </Link>
-            ) : (
-              <div key={product.name} className={base}>
-                {inner}
-              </div>
-            );
-          })}
         </div>
       </Container>
     </section>

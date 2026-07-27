@@ -80,6 +80,7 @@ async function main() {
       items: {
         create: [
           {
+            productSlug: "neuromag-6",
             productName: "Neuromag 6™",
             variant: "60 капсули · еднократна покупка",
             unitPrice: 4000,
@@ -107,6 +108,7 @@ async function main() {
       items: {
         create: [
           {
+            productSlug: "neuromag-6",
             productName: "Neuromag 6™",
             variant: "60 капсули · абонамент",
             unitPrice: 3200,
