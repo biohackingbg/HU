@@ -1,5 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { CheckItem } from "@/components/ui/CheckItem";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import {
   cleanLabel,
   dehydrationFactors,
@@ -9,32 +10,6 @@ import {
   whatsInside,
   whoForItems,
 } from "@/lib/hydra";
-
-function SectionHeading({
-  eyebrow,
-  title,
-  intro,
-}: {
-  eyebrow: string;
-  title: string;
-  intro?: string;
-}) {
-  return (
-    <div className="mb-12 max-w-2xl">
-      <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
-        {eyebrow}
-      </span>
-      <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy-500 sm:text-4xl">
-        {title}
-      </h2>
-      {intro && (
-        <p className="mt-4 text-lg leading-relaxed text-brand-navy-500/70">
-          {intro}
-        </p>
-      )}
-    </div>
-  );
-}
 
 /* ---------- Why Hydra+ ---------- */
 

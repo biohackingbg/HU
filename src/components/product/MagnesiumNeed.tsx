@@ -149,7 +149,7 @@ export function MagnesiumNeed() {
                 href="/blood"
                 className="font-semibold text-brand-navy-500 underline"
               >
-                Health Upgrade Blood
+                Health Upgrade Blood Levels
               </Link>{" "}
               — за да не гадаеш, а да знаеш.
             </p>

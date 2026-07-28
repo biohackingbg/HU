@@ -6,6 +6,8 @@ import { Container } from "@/components/ui/Container";
 import { Badge } from "@/components/ui/Badge";
 import { CheckItem } from "@/components/ui/CheckItem";
 import { PurchaseBox } from "@/components/product/PurchaseBox";
+import { FrequentlyBoughtTogether } from "@/components/product/FrequentlyBoughtTogether";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { StickyBuyBar } from "@/components/product/StickyBuyBar";
 import {
@@ -85,25 +87,6 @@ const keyPoints = [
   "Витамин D3, витамин B6 (P-5-P), цинк и калий",
 ];
 
-function SectionHeading({
-  eyebrow,
-  title,
-}: {
-  eyebrow: string;
-  title: string;
-}) {
-  return (
-    <div className="mb-10 max-w-2xl">
-      <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
-        {eyebrow}
-      </span>
-      <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy-500">
-        {title}
-      </h2>
-    </div>
-  );
-}
-
 export default function Neuromag6Page() {
   return (
     <>
@@ -143,6 +126,16 @@ export default function Neuromag6Page() {
 
             <div id="kupi" className="mt-8">
               <PurchaseBox />
+            </div>
+
+            <div className="mt-6">
+              <FrequentlyBoughtTogether
+                productSlug={PRODUCT_SLUG}
+                catalogKey="neuromag-6:onetime"
+                name="Neuromag 6™"
+                variantLabel="60 капсули · еднократна покупка"
+                imageUrl="/brand/neuromag6-jar.png"
+              />
             </div>
           </div>
         </Container>

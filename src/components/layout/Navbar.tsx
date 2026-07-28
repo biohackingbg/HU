@@ -6,7 +6,7 @@ import { SystemsMenu } from "@/components/layout/SystemsMenu";
 import { CartButton } from "@/components/cart/CartButton";
 
 const links = [
-  { href: "/blood", label: "Blood" },
+  { href: "/blood", label: "Blood Levels" },
   { href: "/sustavki", label: "Съставки" },
 ];
 

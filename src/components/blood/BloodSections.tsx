@@ -1,5 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { CheckItem } from "@/components/ui/CheckItem";
+import { SectionHeading } from "@/components/ui/SectionHeading";
 import { MarkerGauge } from "@/components/blood/MarkerGauge";
 import {
   biomarkerGroups,
@@ -10,46 +11,6 @@ import {
   includedInEvery,
   sampleMarkers,
 } from "@/lib/blood";
-
-function SectionHeading({
-  eyebrow,
-  title,
-  intro,
-  light = false,
-}: {
-  eyebrow: string;
-  title: string;
-  intro?: string;
-  light?: boolean;
-}) {
-  return (
-    <div className="mb-12 max-w-2xl">
-      <span
-        className={`font-display text-sm font-semibold uppercase tracking-wider ${
-          light ? "text-brand-sky-300" : "text-brand-sky-600"
-        }`}
-      >
-        {eyebrow}
-      </span>
-      <h2
-        className={`mt-2 font-display text-3xl font-bold tracking-tight sm:text-4xl ${
-          light ? "text-white" : "text-brand-navy-500"
-        }`}
-      >
-        {title}
-      </h2>
-      {intro && (
-        <p
-          className={`mt-4 text-lg leading-relaxed ${
-            light ? "text-white/70" : "text-brand-navy-500/70"
-          }`}
-        >
-          {intro}
-        </p>
-      )}
-    </div>
-  );
-}
 
 /* ---------- Hero ---------- */
 

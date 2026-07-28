@@ -14,7 +14,7 @@ import { WaitlistForm } from "@/components/blood/WaitlistForm";
 import { bloodMeta } from "@/lib/blood";
 
 export const metadata: Metadata = {
-  title: "Blood — кръвни изследвания у дома | Health Upgrade",
+  title: "Blood Levels — кръвни изследвания у дома | Health Upgrade",
   description: `Кръвен тест у дома по ${bloodMeta.markerCount} ключови показателя, с обяснения на разбираем език и персонализирани препоръки. В разработка.`,
 };
 
