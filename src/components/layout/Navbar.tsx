@@ -3,6 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Logo } from "@/components/ui/Logo";
 import { SystemsMenu } from "@/components/layout/SystemsMenu";
+import { MobileMenu } from "@/components/layout/MobileMenu";
 import { CartButton } from "@/components/cart/CartButton";
 
 const links = [
@@ -60,7 +61,7 @@ export function Navbar() {
           <Button
             href="/test"
             variant="secondary"
-            className="hidden !px-5 !py-2.5 sm:inline-flex"
+            className="!hidden !px-5 !py-2.5 md:!inline-flex"
           >
             Направи теста
           </Button>
@@ -68,16 +69,21 @@ export function Navbar() {
           <Link
             href="/vhod"
             aria-label="Вход и профил"
-            className="rounded-full p-2 text-brand-navy-500/70 transition-colors hover:bg-brand-navy-500/5 hover:text-brand-navy-500"
+            className="hidden rounded-full p-2 text-brand-navy-500/70 transition-colors hover:bg-brand-navy-500/5 hover:text-brand-navy-500 md:inline-flex"
           >
             <ProfileIcon />
           </Link>
 
           <CartButton />
 
-          <Button href="/produkt/neuromag-6" className="!px-5 !py-2.5">
+          <Button
+            href="/produkt/neuromag-6"
+            className="!hidden !px-5 !py-2.5 md:!inline-flex"
+          >
             Купи сега
           </Button>
+
+          <MobileMenu />
         </div>
       </Container>
     </header>
