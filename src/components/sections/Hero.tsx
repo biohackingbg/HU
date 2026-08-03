@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { AnimatedHeading } from "@/components/ui/AnimatedHeading";
 
 export function Hero() {
   return (
@@ -12,12 +13,11 @@ export function Hero() {
             <Badge>Нов продукт</Badge>
           </div>
 
-          <h1
-            className="hu-rise mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-brand-navy-500 sm:text-5xl lg:text-6xl"
-            style={{ animationDelay: "100ms" }}
-          >
-            Наука зад всяка формула.
-          </h1>
+          <AnimatedHeading
+            as="h1"
+            text="Наука зад всяка формула."
+            className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-brand-navy-500 sm:text-5xl lg:text-6xl"
+          />
 
           <p
             className="hu-rise mt-6 text-lg leading-relaxed text-brand-navy-500/75"

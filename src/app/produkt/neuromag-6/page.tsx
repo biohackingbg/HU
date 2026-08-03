@@ -8,6 +8,7 @@ import { CheckItem } from "@/components/ui/CheckItem";
 import { PurchaseBox } from "@/components/product/PurchaseBox";
 import { FrequentlyBoughtTogether } from "@/components/product/FrequentlyBoughtTogether";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { AnimatedHeading } from "@/components/ui/AnimatedHeading";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { StickyBuyBar } from "@/components/product/StickyBuyBar";
 import {
@@ -109,9 +110,11 @@ export default function Neuromag6Page() {
 
           <div>
             <Badge>Нов продукт</Badge>
-            <h1 className="mt-4 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500 sm:text-5xl">
-              Neuromag 6™
-            </h1>
+            <AnimatedHeading
+              as="h1"
+              text="Neuromag 6™"
+              className="mt-4 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500 sm:text-5xl"
+            />
             <p className="mt-2 text-lg text-brand-navy-500/60">
               Premium 6-Form Magnesium System — Brain · Sleep · Recovery
             </p>

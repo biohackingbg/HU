@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
+import { AnimatedHeading } from "@/components/ui/AnimatedHeading";
 
 export function LegalLayout({
   title,
@@ -17,9 +18,11 @@ export function LegalLayout({
       <Navbar />
       <main className="flex-1">
         <Container className="max-w-3xl py-14">
-          <h1 className="font-display text-3xl font-extrabold tracking-tight text-brand-navy-500 sm:text-4xl">
-            {title}
-          </h1>
+          <AnimatedHeading
+            as="h1"
+            text={title}
+            className="font-display text-3xl font-extrabold tracking-tight text-brand-navy-500 sm:text-4xl"
+          />
           <p className="mt-2 text-sm text-brand-navy-500/50">
             Последна актуализация: {updated}
           </p>

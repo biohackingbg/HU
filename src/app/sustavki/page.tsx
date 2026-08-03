@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
+import { AnimatedHeading } from "@/components/ui/AnimatedHeading";
 import { ingredients } from "@/lib/ingredients";
 
 export const metadata: Metadata = {
@@ -23,9 +24,11 @@ export default function IngredientsIndexPage() {
             <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
               Прозрачност
             </span>
-            <h1 className="mt-2 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500">
-              Съставки от А до Я
-            </h1>
+            <AnimatedHeading
+              as="h1"
+              text="Съставки от А до Я"
+              className="mt-2 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500"
+            />
             <p className="mt-4 text-lg leading-relaxed text-brand-navy-500/70">
               Вярваме, че трябва да знаете точно какво приемате и защо. Тук
               обясняваме всяка активна съставка в продуктите на Health

@@ -5,6 +5,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
 import { CheckItem } from "@/components/ui/CheckItem";
+import { AnimatedHeading } from "@/components/ui/AnimatedHeading";
 import { getIngredient, ingredients } from "@/lib/ingredients";
 
 export function generateStaticParams() {
@@ -53,9 +54,11 @@ export default async function IngredientPage({
           <span className="mt-6 inline-block font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
             {ingredient.category}
           </span>
-          <h1 className="mt-2 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500">
-            {ingredient.name}
-          </h1>
+          <AnimatedHeading
+            as="h1"
+            text={ingredient.name}
+            className="mt-2 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500"
+          />
           <p className="mt-1 text-lg italic text-brand-navy-500/45">
             {ingredient.latinName}
           </p>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { Badge } from "@/components/ui/Badge";
 import { CheckItem } from "@/components/ui/CheckItem";
+import { AnimatedHeading } from "@/components/ui/AnimatedHeading";
 import { hydra, hydraFlavors } from "@/lib/hydra";
 
 export function HydraProductTop() {
@@ -64,9 +65,11 @@ export function HydraProductTop() {
       {/* Details */}
       <div>
         <Badge>Очаквайте скоро</Badge>
-        <h1 className="mt-4 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500 sm:text-5xl">
-          {hydra.name}
-        </h1>
+        <AnimatedHeading
+          as="h1"
+          text={hydra.name}
+          className="mt-4 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500 sm:text-5xl"
+        />
         <p className="mt-2 text-lg text-brand-navy-500/60">
           {hydra.subtitle} — {hydra.tagline}
         </p>

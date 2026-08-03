@@ -1,6 +1,7 @@
 import { Container } from "@/components/ui/Container";
 import { CheckItem } from "@/components/ui/CheckItem";
 import { SectionHeading } from "@/components/ui/SectionHeading";
+import { AnimatedHeading } from "@/components/ui/AnimatedHeading";
 import { MarkerGauge } from "@/components/blood/MarkerGauge";
 import {
   biomarkerGroups,
@@ -24,14 +25,11 @@ export function BloodHero() {
             Бета · в разработка
           </span>
 
-          <h1
-            className="hu-rise mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl"
-            style={{ animationDelay: "100ms" }}
-          >
-            Биологията ти
-            <br />
-            има отговорите.
-          </h1>
+          <AnimatedHeading
+            as="h1"
+            lines={["Биологията ти", "има отговорите."]}
+            className="mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl"
+          />
 
           <p
             className="hu-rise mt-6 max-w-xl text-lg leading-relaxed text-brand-sky-300 sm:text-xl"
