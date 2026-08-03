@@ -167,3 +167,11 @@ model PasswordResetToken {
 
   @@index([userId])
 }
+
+/// Singleton row (id "main") holding sitewide settings editable from admin.
+model SiteSettings {
+  id           String   @id @default("main")
+  promoEnabled Boolean  @default(false)
+  promoText    String   @default("")
+  updatedAt    DateTime @updatedAt
+}

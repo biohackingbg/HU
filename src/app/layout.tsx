@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Unbounded, Inter, Geist_Mono } from "next/font/google";
 import { CartProvider } from "@/components/cart/CartProvider";
+import { PromoBar } from "@/components/layout/PromoBar";
+import { ScrollProgressBar } from "@/components/layout/ScrollProgressBar";
+import { getSiteSettings } from "@/lib/settings";
 import "./globals.css";
 
 const displayFont = Unbounded({
@@ -25,17 +28,21 @@ export const metadata: Metadata = {
     "Health Upgrade създава хранителни добавки на база научни изследвания, най-високо качество на съставките и специални формули за максимална бионаличност.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { promoEnabled, promoText } = await getSiteSettings();
+
   return (
     <html
       lang="bg"
       className={`${displayFont.variable} ${bodyFont.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-white text-brand-navy-500">
+        <ScrollProgressBar />
+        <PromoBar enabled={promoEnabled} text={promoText} />
         <CartProvider>{children}</CartProvider>
       </body>
     </html>
