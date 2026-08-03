@@ -109,7 +109,7 @@ export default function Neuromag6Page() {
 
           <div>
             <Badge>Нов продукт</Badge>
-            <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-brand-navy-500 sm:text-5xl">
+            <h1 className="mt-4 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500 sm:text-5xl">
               Neuromag 6™
             </h1>
             <p className="mt-2 text-lg text-brand-navy-500/60">

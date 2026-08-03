@@ -64,7 +64,7 @@ export function HydraProductTop() {
       {/* Details */}
       <div>
         <Badge>Очаквайте скоро</Badge>
-        <h1 className="mt-4 font-display text-4xl font-bold tracking-tight text-brand-navy-500 sm:text-5xl">
+        <h1 className="mt-4 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500 sm:text-5xl">
           {hydra.name}
         </h1>
         <p className="mt-2 text-lg text-brand-navy-500/60">
@@ -110,7 +110,7 @@ export function HydraProductTop() {
 
         {/* Coming soon state */}
         <div className="mt-8 rounded-3xl border border-brand-navy-500/10 bg-brand-sky-50 p-6">
-          <p className="font-display font-bold text-brand-navy-500">
+          <p className="font-display font-extrabold text-brand-navy-500">
             Очаквайте скоро
           </p>
           <p className="mt-1 text-sm leading-relaxed text-brand-navy-500/70">

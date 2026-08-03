@@ -8,7 +8,7 @@ export function Manifesto() {
       <CapsuleParallax />
       <Container className="relative z-10 max-w-4xl text-center">
         <Reveal>
-          <h2 className="font-display text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+          <h2 className="font-display text-4xl font-extrabold tracking-tight text-white sm:text-5xl lg:text-6xl">
             Upgrade Your System.
           </h2>
         </Reveal>

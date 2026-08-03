@@ -23,7 +23,7 @@ export default async function AccountOverviewPage() {
   return (
     <div className="space-y-6">
       <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
-        <h2 className="font-display text-lg font-bold text-brand-navy-500">
+        <h2 className="font-display text-lg font-extrabold text-brand-navy-500">
           Последна поръчка
         </h2>
 
@@ -102,7 +102,7 @@ function QuickLink({
       href={href}
       className="rounded-2xl border border-brand-navy-500/10 bg-white p-5 transition-colors hover:border-brand-navy-500/30"
     >
-      <p className="font-display font-bold text-brand-navy-500">{title}</p>
+      <p className="font-display font-extrabold text-brand-navy-500">{title}</p>
       <p className="mt-1 text-sm text-brand-navy-500/55">{note}</p>
     </Link>
   );

@@ -25,7 +25,7 @@ export function SystemLineup({
           <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
             {eyebrow}
           </span>
-          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy-500 sm:text-4xl">
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-brand-navy-500 sm:text-4xl">
             {title}
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-brand-navy-500/70">
@@ -40,7 +40,7 @@ export function SystemLineup({
               <>
                 <div className="flex items-start justify-between gap-3">
                   <div className="min-w-0">
-                    <h3 className="font-display font-bold text-brand-navy-500">
+                    <h3 className="font-display font-extrabold text-brand-navy-500">
                       {system.productName ?? system.label}
                     </h3>
                     {system.productName && (

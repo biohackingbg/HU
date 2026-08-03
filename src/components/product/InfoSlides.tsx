@@ -41,7 +41,7 @@ export function SixFormsSlide() {
       <span className="font-display text-xs font-semibold uppercase tracking-wider text-brand-sky-600">
         Една формула
       </span>
-      <h3 className="mt-2 font-display text-2xl font-bold leading-tight text-brand-navy-500 sm:text-3xl">
+      <h3 className="mt-2 font-display text-2xl font-extrabold leading-tight text-brand-navy-500 sm:text-3xl">
         6 форми магнезий, които работят синергично
       </h3>
       <ul className="mt-6 space-y-3">
@@ -67,7 +67,7 @@ export function SixFormsSlide() {
 export function SixFormsThumb() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center bg-brand-sky-50">
-      <span className="font-display text-lg font-bold leading-none text-brand-navy-500">
+      <span className="font-display text-lg font-extrabold leading-none text-brand-navy-500">
         6
       </span>
       <span className="mt-0.5 text-[9px] font-medium uppercase tracking-wider text-brand-navy-500/60">
@@ -83,7 +83,7 @@ export function SynergySlide() {
       <span className="font-display text-xs font-semibold uppercase tracking-wider text-brand-sky-300">
         Подсилена формула
       </span>
-      <h3 className="mt-2 font-display text-2xl font-bold leading-tight text-white sm:text-3xl">
+      <h3 className="mt-2 font-display text-2xl font-extrabold leading-tight text-white sm:text-3xl">
         Не само магнезий
       </h3>
       <p className="mt-3 text-sm text-white/70">
@@ -92,7 +92,7 @@ export function SynergySlide() {
       <ul className="mt-6 grid grid-cols-2 gap-3">
         {reinforcements.map((item) => (
           <li key={item.name} className="rounded-xl bg-white/10 p-4">
-            <span className="block font-display text-sm font-bold text-white">
+            <span className="block font-display text-sm font-extrabold text-white">
               {item.name}
             </span>
             <span className="text-xs text-white/60">{item.note}</span>
@@ -106,7 +106,7 @@ export function SynergySlide() {
 export function SynergyThumb() {
   return (
     <div className="flex h-full w-full flex-col items-center justify-center bg-brand-navy-500">
-      <span className="font-display text-lg font-bold leading-none text-white">
+      <span className="font-display text-lg font-extrabold leading-none text-white">
         +4
       </span>
       <span className="mt-0.5 text-[9px] font-medium uppercase tracking-wider text-white/60">

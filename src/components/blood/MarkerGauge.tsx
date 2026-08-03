@@ -36,7 +36,7 @@ export function MarkerGauge({
       </div>
 
       <div className="mt-1 flex items-baseline gap-2">
-        <span className="font-display text-2xl font-bold text-brand-navy-500">
+        <span className="font-display text-2xl font-extrabold text-brand-navy-500">
           {value}
         </span>
         <span className={`flex items-center gap-1.5 text-sm font-medium ${meta.text}`}>

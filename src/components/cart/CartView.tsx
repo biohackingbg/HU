@@ -99,7 +99,7 @@ export function CartView() {
       {/* Summary */}
       <div className="lg:sticky lg:top-28 lg:self-start">
         <div className="rounded-3xl border border-brand-navy-500/10 bg-white p-6">
-          <h2 className="font-display font-bold text-brand-navy-500">Обобщение</h2>
+          <h2 className="font-display font-extrabold text-brand-navy-500">Обобщение</h2>
 
           {shipping > 0 && toFreeShipping > 0 && (
             <p className="mt-3 rounded-xl bg-brand-sky-50 px-4 py-3 text-sm text-brand-navy-500/70">

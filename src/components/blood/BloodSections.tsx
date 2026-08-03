@@ -25,7 +25,7 @@ export function BloodHero() {
           </span>
 
           <h1
-            className="hu-rise mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl"
+            className="hu-rise mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-5xl lg:text-6xl"
             style={{ animationDelay: "100ms" }}
           >
             Биологията ти
@@ -96,11 +96,11 @@ export function HowItWorks() {
           <ol className="space-y-8">
             {bloodSteps.map((step) => (
               <li key={step.n} className="flex gap-5">
-                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-navy-500 font-display text-sm font-bold text-white">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-navy-500 font-display text-sm font-extrabold text-white">
                   {step.n}
                 </span>
                 <div>
-                  <h3 className="font-display text-lg font-bold text-brand-navy-500">
+                  <h3 className="font-display text-lg font-extrabold text-brand-navy-500">
                     {step.title}
                   </h3>
                   <p className="mt-1.5 leading-relaxed text-brand-navy-500/70">
@@ -151,7 +151,7 @@ export function Biomarkers() {
           {biomarkerGroups.map((group) => (
             <div key={group.group} className="rounded-2xl bg-white p-6">
               <div className="flex items-baseline justify-between">
-                <h3 className="font-display font-bold text-brand-navy-500">
+                <h3 className="font-display font-extrabold text-brand-navy-500">
                   {group.group}
                 </h3>
                 <span className="text-xs text-brand-navy-500/40">
@@ -202,7 +202,7 @@ export function Plans() {
               )}
 
               <h3
-                className={`font-display text-xl font-bold ${
+                className={`font-display text-xl font-extrabold ${
                   plan.featured ? "text-white" : "text-brand-navy-500"
                 }`}
               >
@@ -211,7 +211,7 @@ export function Plans() {
 
               <div className="mt-3 flex items-baseline gap-2">
                 <span
-                  className={`font-display text-3xl font-bold ${
+                  className={`font-display text-3xl font-extrabold ${
                     plan.featured ? "text-white" : "text-brand-navy-500"
                   }`}
                 >
@@ -295,7 +295,7 @@ export function Plans() {
 
         {/* Included in every plan */}
         <div className="mt-10 rounded-3xl bg-brand-sky-50 p-8">
-          <h3 className="font-display font-bold text-brand-navy-500">
+          <h3 className="font-display font-extrabold text-brand-navy-500">
             Включено във всеки план
           </h3>
           <ul className="mt-5 grid gap-x-8 gap-y-3 sm:grid-cols-2 lg:grid-cols-3">

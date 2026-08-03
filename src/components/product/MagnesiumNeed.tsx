@@ -106,7 +106,7 @@ export function MagnesiumNeed() {
           <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
             Нуждата
           </span>
-          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy-500 sm:text-4xl">
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-brand-navy-500 sm:text-4xl">
             Кога нуждата от магнезий е по-висока
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-brand-navy-500/70">
@@ -125,7 +125,7 @@ export function MagnesiumNeed() {
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-sky-50 text-brand-sky-600">
                 <FactorIcon name={factor.icon} />
               </div>
-              <h3 className="mt-4 font-display text-lg font-bold text-brand-navy-500">
+              <h3 className="mt-4 font-display text-lg font-extrabold text-brand-navy-500">
                 {factor.label}
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-brand-navy-500/70">
@@ -138,7 +138,7 @@ export function MagnesiumNeed() {
         {/* Honest close: we don't diagnose — here's how you'd actually know. */}
         <div className="mt-10 rounded-3xl bg-brand-sky-50 p-8 sm:p-10">
           <div className="max-w-2xl">
-            <h3 className="font-display text-xl font-bold text-brand-navy-500">
+            <h3 className="font-display text-xl font-extrabold text-brand-navy-500">
               Как да разбереш какви са твоите стойности
             </h3>
             <p className="mt-3 leading-relaxed text-brand-navy-500/75">

@@ -18,7 +18,7 @@ export function FunctionSection() {
     <div className="grid gap-8 lg:grid-cols-3">
       {blocks.map((block) => (
         <div key={block.title}>
-          <h3 className="font-display text-lg font-bold text-brand-navy-500">
+          <h3 className="font-display text-lg font-extrabold text-brand-navy-500">
             {block.title}
           </h3>
           <p className="mt-3 leading-relaxed text-brand-navy-500/70">

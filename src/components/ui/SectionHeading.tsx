@@ -1,19 +1,58 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 
-const ENTER_AT = 0.92; // fraction of viewport height where reveal starts
-const DONE_AT = 0.45; // fraction of viewport height where reveal completes
-const MIN_OPACITY = 0.3;
+const EASE = "cubic-bezier(0.16, 1, 0.3, 1)";
+const STAGGER_MS = 45;
+const DURATION_MS = 700;
 
-function clamp(value: number, min: number, max: number) {
-  return Math.min(max, Math.max(min, value));
+/**
+ * Splits text into words, each masked in an overflow-hidden box so it can
+ * slide up from below the baseline without clipping descenders. Words
+ * animate in with a per-word stagger, like a title on motionpotion.co.
+ */
+function SplitWords({
+  text,
+  visible,
+  reducedMotion,
+  startDelay = 0,
+}: {
+  text: string;
+  visible: boolean;
+  reducedMotion: boolean;
+  startDelay?: number;
+}) {
+  const words = text.split(" ");
+  const nodes: ReactNode[] = [];
+
+  words.forEach((word, i) => {
+    const innerStyle: CSSProperties = reducedMotion
+      ? {}
+      : {
+          transform: visible ? "translateY(0)" : "translateY(115%)",
+          opacity: visible ? 1 : 0,
+          transition: `transform ${DURATION_MS}ms ${EASE}, opacity ${DURATION_MS}ms ${EASE}`,
+          transitionDelay: `${startDelay + i * STAGGER_MS}ms`,
+        };
+    nodes.push(
+      <span
+        key={i}
+        className="inline-block -mb-[0.18em] overflow-hidden pb-[0.18em] align-top"
+      >
+        <span className="inline-block" style={innerStyle}>
+          {word}
+        </span>
+      </span>,
+    );
+    if (i < words.length - 1) nodes.push(" ");
+  });
+
+  return <>{nodes}</>;
 }
 
 /**
- * Section eyebrow/title/intro block. Opacity is a continuous function of the
- * element's scroll position — it fades in as the section approaches the
- * upper viewport and fades back out on scroll-up, rather than firing once.
+ * Section eyebrow/title/intro block. The title reveals word-by-word through
+ * a mask on scroll-in (once); eyebrow and intro fade/slide in alongside it.
  * Respects prefers-reduced-motion.
  */
 export function SectionHeading({
@@ -30,65 +69,71 @@ export function SectionHeading({
   className?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setReducedMotion(true);
+      setVisible(true);
       return;
     }
 
-    let ticking = false;
-    function update() {
-      ticking = false;
-      const rect = el!.getBoundingClientRect();
-      const vh = window.innerHeight;
-      const progress = clamp(
-        (ENTER_AT * vh - rect.top) / ((ENTER_AT - DONE_AT) * vh),
-        0,
-        1,
-      );
-      const opacity = MIN_OPACITY + (1 - MIN_OPACITY) * progress;
-      el!.style.setProperty("--reveal", opacity.toFixed(3));
-    }
-    function onScroll() {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(update);
-    }
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true);
+          io.disconnect();
+        }
+      },
+      { threshold: 0.2 },
+    );
+    io.observe(el);
+    return () => io.disconnect();
   }, []);
+
+  const fadeStyle = (delayMs: number): CSSProperties =>
+    reducedMotion
+      ? {}
+      : {
+          opacity: visible ? 1 : 0,
+          transform: visible ? "translateY(0)" : "translateY(8px)",
+          transition: `transform 600ms ${EASE}, opacity 600ms ${EASE}`,
+          transitionDelay: `${delayMs}ms`,
+        };
+
+  const titleWordCount = title.split(" ").length;
 
   return (
     <div ref={ref} className={`mb-12 max-w-2xl ${className}`}>
       <span
-        style={{ opacity: "var(--reveal, 1)" }}
-        className={`block font-display text-sm font-semibold uppercase tracking-wider transition-opacity duration-100 ease-out ${
+        style={fadeStyle(0)}
+        className={`block font-display text-sm font-semibold uppercase tracking-wider ${
           light ? "text-brand-sky-300" : "text-brand-sky-600"
         }`}
       >
         {eyebrow}
       </span>
       <h2
-        style={{ opacity: "var(--reveal, 1)" }}
-        className={`mt-2 font-display text-3xl font-bold tracking-tight transition-opacity duration-100 ease-out sm:text-4xl ${
+        className={`mt-2 font-display text-3xl font-extrabold tracking-tight sm:text-4xl ${
           light ? "text-white" : "text-brand-navy-500"
         }`}
       >
-        {title}
+        <SplitWords
+          text={title}
+          visible={visible}
+          reducedMotion={reducedMotion}
+          startDelay={80}
+        />
       </h2>
       {intro && (
         <p
-          style={{ opacity: "var(--reveal, 1)" }}
-          className={`mt-4 text-lg leading-relaxed transition-opacity duration-100 ease-out ${
+          style={fadeStyle(80 + titleWordCount * STAGGER_MS + 100)}
+          className={`mt-4 text-lg leading-relaxed ${
             light ? "text-white/70" : "text-brand-navy-500/70"
           }`}
         >

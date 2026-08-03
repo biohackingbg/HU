@@ -23,7 +23,7 @@ export default async function AccountLayout({
             <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
               Моят акаунт
             </span>
-            <h1 className="mt-1 font-display text-3xl font-bold tracking-tight text-brand-navy-500">
+            <h1 className="mt-1 font-display text-3xl font-extrabold tracking-tight text-brand-navy-500">
               Здравей, {displayName(user)}
             </h1>
           </div>

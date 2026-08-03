@@ -21,7 +21,7 @@ export default async function ForgotPasswordPage() {
         <Container className="flex justify-center py-16 lg:py-24">
           <div className="w-full max-w-md">
             <div className="text-center">
-              <h1 className="font-display text-3xl font-bold tracking-tight text-brand-navy-500">
+              <h1 className="font-display text-3xl font-extrabold tracking-tight text-brand-navy-500">
                 Забравена парола
               </h1>
               <p className="mt-2 text-brand-navy-500/60">

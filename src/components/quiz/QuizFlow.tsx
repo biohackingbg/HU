@@ -66,7 +66,7 @@ export function QuizFlow() {
       <p className="text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
         Въпрос {step + 1} от {total}
       </p>
-      <h1 className="mt-2 font-display text-2xl font-bold text-brand-navy-500 sm:text-3xl">
+      <h1 className="mt-2 font-display text-2xl font-extrabold text-brand-navy-500 sm:text-3xl">
         {question.question}
       </h1>
       {question.multi && (
@@ -176,7 +176,7 @@ function QuizResult({
       <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
         Твоят резултат
       </span>
-      <h1 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy-500 sm:text-4xl">
+      <h1 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-brand-navy-500 sm:text-4xl">
         {category.label}
       </h1>
       <p className="mt-4 text-lg leading-relaxed text-brand-navy-500/75">
@@ -219,7 +219,7 @@ function QuizResult({
           <p className="text-sm text-brand-navy-500/60">
             Код за 10% от първата ти поръчка
           </p>
-          <p className="font-display text-lg font-bold text-brand-navy-500">
+          <p className="font-display text-lg font-extrabold text-brand-navy-500">
             {QUIZ_PROMO_CODE}
           </p>
         </div>

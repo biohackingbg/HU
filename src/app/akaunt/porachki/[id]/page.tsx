@@ -51,7 +51,7 @@ export default async function OrderDetailPage({
       <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="font-display text-xl font-bold text-brand-navy-500">
+            <h2 className="font-display text-xl font-extrabold text-brand-navy-500">
               Поръчка №{order.orderNumber}
             </h2>
             <p className="text-sm text-brand-navy-500/55">
@@ -117,7 +117,7 @@ export default async function OrderDetailPage({
 
       {/* Items */}
       <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
-        <h3 className="font-display font-bold text-brand-navy-500">Продукти</h3>
+        <h3 className="font-display font-extrabold text-brand-navy-500">Продукти</h3>
         <ul className="mt-4 divide-y divide-brand-navy-500/8">
           {order.items.map((item) => (
             <li key={item.id} className="flex items-center gap-4 py-4">
@@ -192,7 +192,7 @@ export default async function OrderDetailPage({
       {/* Shipping address */}
       {order.shipName && (
         <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
-          <h3 className="font-display font-bold text-brand-navy-500">
+          <h3 className="font-display font-extrabold text-brand-navy-500">
             Адрес за доставка
           </h3>
           <address className="mt-3 not-italic leading-relaxed text-brand-navy-500/70">

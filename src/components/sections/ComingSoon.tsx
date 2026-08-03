@@ -13,7 +13,7 @@ export function ComingSoon() {
         >
           <div className="order-2 lg:order-1">
             <Badge>Очаквайте скоро</Badge>
-            <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-brand-navy-500 sm:text-4xl">
+            <h2 className="mt-4 font-display text-3xl font-extrabold tracking-tight text-brand-navy-500 sm:text-4xl">
               Hydra+
             </h2>
             <p className="mt-2 text-lg text-brand-navy-500/60">

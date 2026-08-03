@@ -150,7 +150,7 @@ export function CheckoutView({
   if (card && stripeEnabled && publishableKey) {
     return (
       <div className="mx-auto max-w-md">
-        <h2 className="font-display text-lg font-bold text-brand-navy-500">
+        <h2 className="font-display text-lg font-extrabold text-brand-navy-500">
           Плащане с карта
         </h2>
         <p className="mt-1 text-sm text-brand-navy-500/55">
@@ -178,7 +178,7 @@ export function CheckoutView({
 
         {/* Contact */}
         <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
-          <h2 className="font-display font-bold text-brand-navy-500">
+          <h2 className="font-display font-extrabold text-brand-navy-500">
             Контакти
           </h2>
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
@@ -196,7 +196,7 @@ export function CheckoutView({
 
         {/* Shipping */}
         <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
-          <h2 className="font-display font-bold text-brand-navy-500">
+          <h2 className="font-display font-extrabold text-brand-navy-500">
             Доставка с Еконт
           </h2>
           <div className="mt-4 space-y-2">
@@ -279,7 +279,7 @@ export function CheckoutView({
 
         {/* Payment */}
         <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
-          <h2 className="font-display font-bold text-brand-navy-500">
+          <h2 className="font-display font-extrabold text-brand-navy-500">
             Плащане
           </h2>
           <div className="mt-4 space-y-2">
@@ -342,7 +342,7 @@ export function CheckoutView({
 
         {/* Promo code */}
         <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
-          <h2 className="font-display font-bold text-brand-navy-500">
+          <h2 className="font-display font-extrabold text-brand-navy-500">
             Промо код
           </h2>
           {appliedPromo ? (
@@ -395,7 +395,7 @@ export function CheckoutView({
       {/* Summary */}
       <div className="lg:sticky lg:top-28 lg:self-start">
         <div className="rounded-3xl border border-brand-navy-500/10 bg-white p-6">
-          <h2 className="font-display font-bold text-brand-navy-500">
+          <h2 className="font-display font-extrabold text-brand-navy-500">
             Поръчка
           </h2>
           <ul className="mt-4 space-y-3 text-sm">

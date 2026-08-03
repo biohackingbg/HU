@@ -20,7 +20,7 @@ export function WhyHydra() {
         <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-300">
           Защо Hydra+
         </span>
-        <h2 className="mt-3 font-display text-3xl font-bold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
+        <h2 className="mt-3 font-display text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl">
           Повечето хора нямат нужда от повече вода.
           <br />
           Имат нужда от по-добра хидратация.
@@ -111,7 +111,7 @@ export function DehydrationSection() {
               <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-sky-50 text-brand-sky-600">
                 <FactorIcon name={factor.icon} />
               </div>
-              <h3 className="mt-4 font-display text-lg font-bold text-brand-navy-500">
+              <h3 className="mt-4 font-display text-lg font-extrabold text-brand-navy-500">
                 {factor.label}
               </h3>
               <p className="mt-1.5 text-sm leading-relaxed text-brand-navy-500/70">
@@ -146,7 +146,7 @@ export function DifferenceSection() {
               key={pillar.title}
               className="rounded-3xl bg-white p-8 shadow-sm ring-1 ring-brand-navy-500/5"
             >
-              <h3 className="font-display text-xl font-bold text-brand-navy-500">
+              <h3 className="font-display text-xl font-extrabold text-brand-navy-500">
                 {pillar.title}
               </h3>
               <p className="mt-3 leading-relaxed text-brand-navy-500/70">
@@ -193,7 +193,7 @@ export function WhatsInsideSection() {
         <div className="grid gap-6 sm:grid-cols-2">
           {whatsInside.map((item) => (
             <div key={item.name} className="rounded-2xl bg-white p-6">
-              <h3 className="font-display text-lg font-bold text-brand-navy-500">
+              <h3 className="font-display text-lg font-extrabold text-brand-navy-500">
                 {item.name}
               </h3>
               <p className="mt-2 leading-relaxed text-brand-navy-500/70">
@@ -256,7 +256,7 @@ export function CleanLabelSection() {
           <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-300">
             Чист етикет
           </span>
-          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             Нищо излишно.
           </h2>
         </div>

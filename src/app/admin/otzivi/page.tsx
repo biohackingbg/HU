@@ -38,7 +38,7 @@ export default async function AdminReviewsPage({
   return (
     <div>
       <div className="mb-6">
-        <h1 className="font-display text-2xl font-bold tracking-tight text-brand-navy-500">
+        <h1 className="font-display text-2xl font-extrabold tracking-tight text-brand-navy-500">
           Отзиви
         </h1>
         <p className="mt-1 text-sm text-brand-navy-500/55">
@@ -87,7 +87,7 @@ export default async function AdminReviewsPage({
                 </div>
 
                 {r.title && (
-                  <h2 className="mt-3 font-display font-bold text-brand-navy-500">
+                  <h2 className="mt-3 font-display font-extrabold text-brand-navy-500">
                     {r.title}
                   </h2>
                 )}

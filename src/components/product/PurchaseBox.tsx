@@ -55,7 +55,7 @@ export function PurchaseBox() {
           <span className="block text-xs font-semibold uppercase tracking-wide text-brand-sky-600">
             Абонамент · -{neuromag6.subscribeDiscountPct}%
           </span>
-          <span className="mt-1 block font-display text-lg font-bold text-brand-navy-500">
+          <span className="mt-1 block font-display text-lg font-extrabold text-brand-navy-500">
             {formatEur(neuromag6.priceSubscribe)}
           </span>
           <span className="block text-xs text-brand-navy-500/50">
@@ -75,7 +75,7 @@ export function PurchaseBox() {
           <span className="block text-xs font-semibold uppercase tracking-wide text-brand-navy-500/50">
             Еднократна покупка
           </span>
-          <span className="mt-1 block font-display text-lg font-bold text-brand-navy-500">
+          <span className="mt-1 block font-display text-lg font-extrabold text-brand-navy-500">
             {formatEur(neuromag6.priceOneTime)}
           </span>
           <span className="block text-xs text-brand-navy-500/50">

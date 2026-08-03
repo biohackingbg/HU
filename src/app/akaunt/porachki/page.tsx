@@ -19,7 +19,7 @@ export default async function OrdersPage() {
 
   return (
     <div>
-      <h2 className="font-display text-lg font-bold text-brand-navy-500">
+      <h2 className="font-display text-lg font-extrabold text-brand-navy-500">
         Моите поръчки
       </h2>
 

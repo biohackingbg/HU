@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import { Onest, Inter, Geist_Mono } from "next/font/google";
+import { Unbounded, Inter, Geist_Mono } from "next/font/google";
 import { CartProvider } from "@/components/cart/CartProvider";
 import "./globals.css";
 
-const displayFont = Onest({
+const displayFont = Unbounded({
   variable: "--font-display",
   subsets: ["latin", "cyrillic"],
   weight: ["500", "600", "700", "800"],

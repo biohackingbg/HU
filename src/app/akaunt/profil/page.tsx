@@ -9,7 +9,7 @@ export default async function ProfilePage() {
   return (
     <div className="space-y-6">
       <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
-        <h2 className="font-display text-lg font-bold text-brand-navy-500">
+        <h2 className="font-display text-lg font-extrabold text-brand-navy-500">
           Лични данни
         </h2>
         <p className="mt-1 text-sm text-brand-navy-500/55">
@@ -25,7 +25,7 @@ export default async function ProfilePage() {
       </section>
 
       <section className="rounded-3xl border border-brand-navy-500/10 bg-white p-6 sm:p-8">
-        <h2 className="font-display text-lg font-bold text-brand-navy-500">
+        <h2 className="font-display text-lg font-extrabold text-brand-navy-500">
           Смяна на парола
         </h2>
         <p className="mt-1 text-sm text-brand-navy-500/55">

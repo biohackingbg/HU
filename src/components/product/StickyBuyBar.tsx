@@ -47,7 +47,7 @@ export function StickyBuyBar({ targetId }: { targetId: string }) {
           />
         </div>
         <div className="min-w-0 flex-1">
-          <p className="truncate font-display text-sm font-bold text-brand-navy-500">
+          <p className="truncate font-display text-sm font-extrabold text-brand-navy-500">
             Neuromag 6™
           </p>
           <p className="text-xs text-brand-navy-500/60">

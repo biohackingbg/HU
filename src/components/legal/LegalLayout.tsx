@@ -17,7 +17,7 @@ export function LegalLayout({
       <Navbar />
       <main className="flex-1">
         <Container className="max-w-3xl py-14">
-          <h1 className="font-display text-3xl font-bold tracking-tight text-brand-navy-500 sm:text-4xl">
+          <h1 className="font-display text-3xl font-extrabold tracking-tight text-brand-navy-500 sm:text-4xl">
             {title}
           </h1>
           <p className="mt-2 text-sm text-brand-navy-500/50">

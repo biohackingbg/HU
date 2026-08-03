@@ -10,7 +10,7 @@ export function TrustProof() {
           <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
             Прозрачност
           </span>
-          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy-500 sm:text-4xl">
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-brand-navy-500 sm:text-4xl">
             Доказателства, не обещания
           </h2>
           <p className="mt-4 text-lg text-brand-navy-500/70">
@@ -25,7 +25,7 @@ export function TrustProof() {
               key={point.title}
               className="rounded-2xl bg-white p-6 shadow-sm ring-1 ring-brand-navy-500/5"
             >
-              <h3 className="font-display text-lg font-bold text-brand-navy-500">
+              <h3 className="font-display text-lg font-extrabold text-brand-navy-500">
                 {point.title}
               </h3>
               <p className="mt-2 leading-relaxed text-brand-navy-500/70">

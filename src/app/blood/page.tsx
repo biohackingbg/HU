@@ -38,7 +38,7 @@ export default function BloodPage() {
             <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-300">
               Ранен достъп
             </span>
-            <h2 className="mt-2 max-w-2xl font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+            <h2 className="mt-2 max-w-2xl font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
               Бъди сред първите, които ще тестват
             </h2>
             <p className="mt-4 max-w-xl leading-relaxed text-white/70">

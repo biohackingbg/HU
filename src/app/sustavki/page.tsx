@@ -23,7 +23,7 @@ export default function IngredientsIndexPage() {
             <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
               Прозрачност
             </span>
-            <h1 className="mt-2 font-display text-4xl font-bold tracking-tight text-brand-navy-500">
+            <h1 className="mt-2 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500">
               Съставки от А до Я
             </h1>
             <p className="mt-4 text-lg leading-relaxed text-brand-navy-500/70">
@@ -52,7 +52,7 @@ export default function IngredientsIndexPage() {
                       href={`/sustavki/${ingredient.slug}`}
                       className="group rounded-2xl border border-brand-navy-500/10 p-6 transition-colors hover:border-brand-navy-500/30 hover:bg-brand-sky-50"
                     >
-                      <h3 className="font-display text-lg font-bold text-brand-navy-500">
+                      <h3 className="font-display text-lg font-extrabold text-brand-navy-500">
                         {ingredient.name}
                       </h3>
                       <p className="mt-1 text-sm italic text-brand-navy-500/45">

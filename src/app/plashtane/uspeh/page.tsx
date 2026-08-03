@@ -32,7 +32,7 @@ export default async function CheckoutSuccessPage({
                 />
               </svg>
             </div>
-            <h1 className="mt-6 font-display text-3xl font-bold tracking-tight text-brand-navy-500">
+            <h1 className="mt-6 font-display text-3xl font-extrabold tracking-tight text-brand-navy-500">
               Благодарим за поръчката!
             </h1>
             {n && (

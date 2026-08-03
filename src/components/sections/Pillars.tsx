@@ -20,7 +20,7 @@ export function Pillars() {
     <section className="bg-white py-20 lg:py-28">
       <Container>
         <div className="max-w-2xl">
-          <h2 className="font-display text-3xl font-bold tracking-tight text-brand-navy-500 sm:text-4xl">
+          <h2 className="font-display text-3xl font-extrabold tracking-tight text-brand-navy-500 sm:text-4xl">
             Не индустриален стандарт. Health Upgrade стандарт.
           </h2>
           <p className="mt-4 text-lg text-brand-navy-500/70">
@@ -35,7 +35,7 @@ export function Pillars() {
               <span className="font-display text-sm font-semibold text-brand-sky-600">
                 0{i + 1}
               </span>
-              <h3 className="mt-3 font-display text-xl font-bold text-brand-navy-500">
+              <h3 className="mt-3 font-display text-xl font-extrabold text-brand-navy-500">
                 {pillar.title}
               </h3>
               <p className="mt-3 leading-relaxed text-brand-navy-500/70">

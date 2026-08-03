@@ -13,7 +13,7 @@ export function Hero() {
           </div>
 
           <h1
-            className="hu-rise mt-6 font-display text-4xl font-bold leading-[1.05] tracking-tight text-brand-navy-500 sm:text-5xl lg:text-6xl"
+            className="hu-rise mt-6 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-brand-navy-500 sm:text-5xl lg:text-6xl"
             style={{ animationDelay: "100ms" }}
           >
             Наука зад всяка формула.

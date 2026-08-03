@@ -29,7 +29,7 @@ export async function ReviewsSection({
           <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
             Отзиви
           </span>
-          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-brand-navy-500 sm:text-4xl">
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-brand-navy-500 sm:text-4xl">
             Какво казват клиентите
           </h2>
         </div>
@@ -40,7 +40,7 @@ export async function ReviewsSection({
             {summary.count > 0 ? (
               <div className="rounded-3xl border border-brand-navy-500/10 p-6">
                 <div className="flex items-baseline gap-3">
-                  <span className="font-display text-4xl font-bold text-brand-navy-500">
+                  <span className="font-display text-4xl font-extrabold text-brand-navy-500">
                     {summary.average.toFixed(1)}
                   </span>
                   <div>
@@ -91,7 +91,7 @@ export async function ReviewsSection({
 
             {/* Write-a-review state */}
             <div className="mt-6 rounded-3xl border border-brand-navy-500/10 p-6">
-              <h3 className="font-display font-bold text-brand-navy-500">
+              <h3 className="font-display font-extrabold text-brand-navy-500">
                 Остави отзив
               </h3>
               {eligibility.canReview ? (
@@ -155,7 +155,7 @@ export async function ReviewsSection({
                     </div>
 
                     {review.title && (
-                      <h3 className="mt-3 font-display font-bold text-brand-navy-500">
+                      <h3 className="mt-3 font-display font-extrabold text-brand-navy-500">
                         {review.title}
                       </h3>
                     )}

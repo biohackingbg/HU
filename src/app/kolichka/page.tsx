@@ -14,7 +14,7 @@ export default function CartPage() {
       <Navbar />
       <main className="flex-1">
         <Container className="py-12 lg:py-16">
-          <h1 className="mb-8 font-display text-3xl font-bold tracking-tight text-brand-navy-500">
+          <h1 className="mb-8 font-display text-3xl font-extrabold tracking-tight text-brand-navy-500">
             Твоята количка
           </h1>
           <CartView />

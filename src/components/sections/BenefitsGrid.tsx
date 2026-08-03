@@ -16,7 +16,7 @@ export function BenefitsGrid() {
     <section className="bg-brand-sky-50 py-20 lg:py-28">
       <Container className="grid gap-14 lg:grid-cols-2">
         <div>
-          <h2 className="font-display text-3xl font-bold tracking-tight text-brand-navy-500 sm:text-4xl">
+          <h2 className="font-display text-3xl font-extrabold tracking-tight text-brand-navy-500 sm:text-4xl">
             Защо Neuromag 6™
           </h2>
           <p className="mt-5 text-lg leading-relaxed text-brand-navy-500/75">

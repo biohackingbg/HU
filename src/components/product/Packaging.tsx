@@ -37,7 +37,7 @@ export function Packaging() {
           <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-300">
             Опаковката
           </span>
-          <h2 className="mt-2 font-display text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          <h2 className="mt-2 font-display text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             Опаковка, която пази формулата
           </h2>
           <p className="mt-4 text-lg leading-relaxed text-white/70">
@@ -53,10 +53,10 @@ export function Packaging() {
               key={part.n}
               className="rounded-2xl bg-white/[0.07] p-6 ring-1 ring-white/10"
             >
-              <span className="font-display text-sm font-bold text-brand-sky-300">
+              <span className="font-display text-sm font-extrabold text-brand-sky-300">
                 {part.n}
               </span>
-              <h3 className="mt-2 font-display text-lg font-bold text-white">
+              <h3 className="mt-2 font-display text-lg font-extrabold text-white">
                 {part.title}
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-white/70">

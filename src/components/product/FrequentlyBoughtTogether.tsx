@@ -100,7 +100,7 @@ export function FrequentlyBoughtTogether({
       <span className="font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
         Купени заедно
       </span>
-      <h3 className="mt-1.5 font-display text-xl font-bold text-brand-navy-500">
+      <h3 className="mt-1.5 font-display text-xl font-extrabold text-brand-navy-500">
         Изгради своята система
       </h3>
 
@@ -192,7 +192,7 @@ export function FrequentlyBoughtTogether({
       <div className="mt-6 flex items-center justify-between gap-4 border-t border-brand-navy-500/8 pt-5">
         <div>
           <p className="text-xs text-brand-navy-500/50">Общо за избраните</p>
-          <p className="font-display text-lg font-bold text-brand-navy-500">
+          <p className="font-display text-lg font-extrabold text-brand-navy-500">
             {formatCentsEur(totalCents)}
           </p>
         </div>

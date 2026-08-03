@@ -53,7 +53,7 @@ export default async function IngredientPage({
           <span className="mt-6 inline-block font-display text-sm font-semibold uppercase tracking-wider text-brand-sky-600">
             {ingredient.category}
           </span>
-          <h1 className="mt-2 font-display text-4xl font-bold tracking-tight text-brand-navy-500">
+          <h1 className="mt-2 font-display text-4xl font-extrabold tracking-tight text-brand-navy-500">
             {ingredient.name}
           </h1>
           <p className="mt-1 text-lg italic text-brand-navy-500/45">
@@ -62,7 +62,7 @@ export default async function IngredientPage({
 
           <div className="mt-10 space-y-8">
             <section>
-              <h2 className="font-display text-xl font-bold text-brand-navy-500">
+              <h2 className="font-display text-xl font-extrabold text-brand-navy-500">
                 Какво представлява
               </h2>
               <p className="mt-3 leading-relaxed text-brand-navy-500/75">
@@ -71,7 +71,7 @@ export default async function IngredientPage({
             </section>
 
             <section>
-              <h2 className="font-display text-xl font-bold text-brand-navy-500">
+              <h2 className="font-display text-xl font-extrabold text-brand-navy-500">
                 Защо избрахме точно тази форма
               </h2>
               <p className="mt-3 leading-relaxed text-brand-navy-500/75">
@@ -81,7 +81,7 @@ export default async function IngredientPage({
 
             {ingredient.research && (
               <section>
-                <h2 className="font-display text-xl font-bold text-brand-navy-500">
+                <h2 className="font-display text-xl font-extrabold text-brand-navy-500">
                   Научна основа
                 </h2>
                 <div className="mt-3 rounded-2xl border border-brand-navy-500/10 p-6">
@@ -96,7 +96,7 @@ export default async function IngredientPage({
             )}
 
             <section>
-              <h2 className="font-display text-xl font-bold text-brand-navy-500">
+              <h2 className="font-display text-xl font-extrabold text-brand-navy-500">
                 Официални здравни твърдения (EFSA)
               </h2>
               <ul className="mt-3 space-y-2.5">
