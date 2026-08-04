@@ -13,14 +13,19 @@ export function PromoBar({
   text: string;
 }) {
   const pathname = usePathname();
-  const [dismissed, setDismissed] = useState(true);
+  // Starts visible so the bar is present in the server-rendered HTML and the
+  // markup matches on hydration; the effect hides it again if this exact
+  // message was already dismissed on this device.
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     try {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setDismissed(localStorage.getItem(STORAGE_PREFIX + text) === "1");
+      if (localStorage.getItem(STORAGE_PREFIX + text) === "1") {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setDismissed(true);
+      }
     } catch {
-      setDismissed(false);
+      // storage unavailable (private mode) — leave the bar visible
     }
   }, [text]);
 

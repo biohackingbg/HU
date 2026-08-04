@@ -27,7 +27,8 @@ export const getSiteSettings = unstable_cache(
         promoEnabled: settings?.promoEnabled ?? DEFAULTS.promoEnabled,
         promoText: settings?.promoText ?? DEFAULTS.promoText,
       };
-    } catch {
+    } catch (err) {
+      console.error("[site-settings] read failed:", err);
       return DEFAULTS;
     }
   },
