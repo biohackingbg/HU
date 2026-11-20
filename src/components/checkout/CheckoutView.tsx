@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/components/cart/CartProvider";
-import { StripePayment } from "@/components/checkout/StripePayment";
 import { placeOrder, previewPromoCode } from "@/lib/actions/checkout";
 import { shippingCents, shippingMethods } from "@/lib/checkout-config";
 import { formatCentsBgn, formatCentsEur } from "@/lib/orders";
@@ -12,13 +11,30 @@ import { formatCentsBgn, formatCentsEur } from "@/lib/orders";
 type Errors = Record<string, string>;
 type AppliedPromo = { code: string; percentOff: number; label: string };
 
+/** Sends the browser to myPOS Checkout with the server-signed form. */
+function submitToMypos(redirect: { url: string; fields: [string, string][] }) {
+  const form = document.createElement("form");
+  form.method = "POST";
+  form.action = redirect.url;
+  form.acceptCharset = "UTF-8";
+  for (const [name, value] of redirect.fields) {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
+  document.body.appendChild(form);
+  form.submit();
+}
+
 export function CheckoutView({
-  stripeEnabled,
-  publishableKey,
+  cardEnabled,
+  paymentCancelled,
   initialPromoCode,
 }: {
-  stripeEnabled: boolean;
-  publishableKey?: string;
+  cardEnabled: boolean;
+  paymentCancelled?: boolean;
   initialPromoCode?: string;
 }) {
   const { items, subtotalCents, clear, ready } = useCart();
@@ -27,12 +43,12 @@ export function CheckoutView({
   const [shippingMethod, setShippingMethod] = useState(shippingMethods[0].id);
   const [paymentMethod, setPaymentMethod] = useState<"cod" | "card">("cod");
   const [errors, setErrors] = useState<Errors>({});
-  const [formError, setFormError] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(
+    paymentCancelled
+      ? "Плащането беше прекъснато и не е таксувано. Можеш да опиташ отново или да избереш наложен платеж."
+      : null,
+  );
   const [pending, setPending] = useState(false);
-  const [card, setCard] = useState<{
-    clientSecret: string;
-    orderNumber: string;
-  } | null>(null);
 
   const [promoInput, setPromoInput] = useState(initialPromoCode ?? "");
   const [appliedPromo, setAppliedPromo] = useState<AppliedPromo | null>(null);
@@ -80,7 +96,7 @@ export function CheckoutView({
 
   if (!ready) return <p className="text-brand-navy-500/50">Зареждане…</p>;
 
-  if (items.length === 0 && !card) {
+  if (items.length === 0) {
     return (
       <div className="rounded-3xl border border-brand-navy-500/10 bg-white p-10 text-center">
         <p className="text-lg text-brand-navy-500/60">Количката ти е празна.</p>
@@ -124,47 +140,26 @@ export function CheckoutView({
     };
 
     const result = await placeOrder(payload);
-    setPending(false);
 
     if (!result.ok) {
+      setPending(false);
       if (result.fieldErrors) setErrors(result.fieldErrors);
       if (result.error) setFormError(result.error);
       return;
     }
 
-    if (result.clientSecret && result.orderNumber) {
-      // Card: keep the cart until payment confirms, show the payment step.
-      setCard({
-        clientSecret: result.clientSecret,
-        orderNumber: result.orderNumber,
-      });
+    if (result.redirect) {
+      // Card / Apple Pay / Google Pay: keep the cart (cleared on the success
+      // page) and leave for the myPOS payment page; stay "pending" meanwhile.
+      submitToMypos(result.redirect);
       return;
     }
+
+    setPending(false);
 
     // Cash on delivery: order placed.
     clear();
     router.push(`/plashtane/uspeh?n=${result.orderNumber ?? ""}`);
-  }
-
-  // Payment step (card)
-  if (card && stripeEnabled && publishableKey) {
-    return (
-      <div className="mx-auto max-w-md">
-        <h2 className="font-display text-lg font-extrabold text-brand-navy-500">
-          Плащане с карта
-        </h2>
-        <p className="mt-1 text-sm text-brand-navy-500/55">
-          Поръчка №{card.orderNumber} · {formatCentsEur(total)}
-        </p>
-        <div className="mt-6 rounded-3xl border border-brand-navy-500/10 bg-white p-6">
-          <StripePayment
-            clientSecret={card.clientSecret}
-            publishableKey={publishableKey}
-            orderNumber={card.orderNumber}
-          />
-        </div>
-      </div>
-    );
   }
 
   return (
@@ -307,7 +302,7 @@ export function CheckoutView({
               </span>
             </label>
 
-            {stripeEnabled ? (
+            {cardEnabled ? (
               <label
                 className={`flex cursor-pointer items-start gap-3 rounded-2xl border p-4 transition-colors ${
                   paymentMethod === "card"
@@ -327,14 +322,14 @@ export function CheckoutView({
                     Карта · Apple Pay · Google Pay
                   </span>
                   <span className="text-sm text-brand-navy-500/55">
-                    Сигурно плащане чрез Stripe
+                    Сигурно плащане чрез myPOS
                   </span>
                 </span>
               </label>
             ) : (
               <p className="rounded-2xl border border-dashed border-brand-navy-500/15 p-4 text-sm text-brand-navy-500/45">
                 Плащане с карта, Apple Pay и Google Pay — активира се след
-                добавяне на Stripe ключове.
+                добавяне на ключовете за myPOS.
               </p>
             )}
           </div>

@@ -34,3 +34,22 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Плащане с карта (myPOS Checkout)
+
+Карта, Apple Pay и Google Pay минават през хостнатата страница на myPOS Checkout
+(`src/lib/mypos.ts`). Поръчката става „платена“ само след подписаното известие от myPOS
+към `/api/mypos/notify`. Нужни променливи (от „configuration pack“ в myPOS акаунта):
+
+| Променлива | Какво е |
+|---|---|
+| `MYPOS_SID` | Store ID |
+| `MYPOS_WALLET_NUMBER` | номер на портфейла |
+| `MYPOS_KEY_INDEX` | индекс на ключа |
+| `MYPOS_PRIVATE_KEY` | частен ключ на магазина (PEM; може с `\n` вместо нови редове) |
+| `MYPOS_PUBLIC_CERT` | публичен сертификат на myPOS (PEM) |
+| `MYPOS_MODE` | `test` (по подразбиране) или `live` |
+| `SITE_URL` | по избор, напр. `https://healthupgrade.bg` — публичният адрес за обратните URL-и |
+
+Без тези променливи на страницата за плащане остава само наложен платеж. Известията от
+myPOS идват само по HTTPS, затова пълното плащане се тества на деплой, не на localhost.

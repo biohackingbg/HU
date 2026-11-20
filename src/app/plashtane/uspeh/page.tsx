@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
+import { ClearCart } from "@/components/cart/ClearCart";
 
 export const metadata: Metadata = {
   title: "Благодарим за поръчката | Health Upgrade",
@@ -11,12 +12,13 @@ export const metadata: Metadata = {
 export default async function CheckoutSuccessPage({
   searchParams,
 }: {
-  searchParams: Promise<{ n?: string }>;
+  searchParams: Promise<{ n?: string; paid?: string }>;
 }) {
-  const { n } = await searchParams;
+  const { n, paid } = await searchParams;
 
   return (
     <>
+      {paid === "1" && <ClearCart />}
       <Navbar />
       <main className="flex-1">
         <Container className="flex justify-center py-20 lg:py-28">

@@ -3,7 +3,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { Container } from "@/components/ui/Container";
 import { CheckoutView } from "@/components/checkout/CheckoutView";
-import { stripeEnabled } from "@/lib/checkout-config";
+import { myposEnabled } from "@/lib/mypos";
 
 export const metadata: Metadata = {
   title: "Плащане | Health Upgrade",
@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 export default async function CheckoutPage({
   searchParams,
 }: {
-  searchParams: Promise<{ promo?: string }>;
+  searchParams: Promise<{ promo?: string; payment?: string }>;
 }) {
-  const { promo } = await searchParams;
+  const { promo, payment } = await searchParams;
 
   return (
     <>
@@ -25,8 +25,8 @@ export default async function CheckoutPage({
             Плащане
           </h1>
           <CheckoutView
-            stripeEnabled={stripeEnabled}
-            publishableKey={process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY}
+            cardEnabled={myposEnabled()}
+            paymentCancelled={payment === "cancelled"}
             initialPromoCode={promo}
           />
         </Container>

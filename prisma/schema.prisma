@@ -54,6 +54,7 @@ model Order {
   paymentMethod String    @default("cod")
   // pending | paid
   paymentStatus String    @default("pending")
+  // Payment provider reference (myPOS IPC_Trnref; historically Stripe PaymentIntent id)
   paymentIntentId String? @unique
   // econt_address | econt_office | econt_machine
   shippingMethod String?

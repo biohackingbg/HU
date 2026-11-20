@@ -1,10 +1,11 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { prisma } from "@/lib/db";
 import { getCurrentUser } from "@/lib/auth";
 import { catalogEntry } from "@/lib/catalog";
-import { getStripe } from "@/lib/stripe";
+import { buildPurchaseForm, getMyposConfig } from "@/lib/mypos";
 import { shippingCents } from "@/lib/checkout-config";
 import { calculateShipping } from "@/lib/econt";
 import { findPromoCode } from "@/lib/promo";
@@ -28,10 +29,23 @@ export type PlaceOrderResult = {
   ok: boolean;
   orderId?: string;
   orderNumber?: string;
-  clientSecret?: string;
+  /** Card payment: signed form the browser must POST to myPOS Checkout. */
+  redirect?: { url: string; fields: [string, string][] };
   error?: string;
   fieldErrors?: Record<string, string>;
 };
+
+/** Public origin of this site, for the URLs myPOS calls back. */
+async function siteOrigin(): Promise<string> {
+  const configured = process.env.SITE_URL?.replace(/\/+$/, "");
+  if (configured) return configured;
+  const h = await headers();
+  const host = h.get("x-forwarded-host") ?? h.get("host") ?? "localhost:3000";
+  const proto =
+    h.get("x-forwarded-proto") ??
+    (host.startsWith("localhost") ? "http" : "https");
+  return `${proto}://${host}`;
+}
 
 async function nextOrderNumber(): Promise<string> {
   const count = await prisma.order.count();
@@ -52,6 +66,13 @@ export async function placeOrder(
   }
 
   const data = parsed.data;
+
+  if (data.paymentMethod === "card" && !getMyposConfig()) {
+    return {
+      ok: false,
+      error: "Плащането с карта все още не е активирано. Избери наложен платеж.",
+    };
+  }
 
   // Resolve every line to server-authoritative pricing.
   const lines = [];
@@ -126,31 +147,44 @@ export async function placeOrder(
     select: { id: true, orderNumber: true },
   });
 
-  // Card payment: create a Stripe PaymentIntent and hand the client secret back.
+  // Card / Apple Pay / Google Pay: hand back a signed myPOS Checkout form.
+  // The order is marked paid only by the signed IPCPurchaseNotify callback.
   if (data.paymentMethod === "card") {
-    const stripe = getStripe();
-    if (!stripe) {
-      return {
-        ok: false,
-        error:
-          "Плащането с карта все още не е активирано. Избери наложен платеж.",
-      };
+    const mypos = getMyposConfig()!;
+    const origin = await siteOrigin();
+    const cartLines = lines.map((l) => ({
+      article: [l.entry.name, l.entry.variantLabel].filter(Boolean).join(" — "),
+      quantity: l.quantity,
+      unitPriceCents: l.entry.unitPriceCents,
+    }));
+    if (discount > 0) {
+      cartLines.push({
+        article: `Отстъпка ${appliedPromoCode ?? ""}`.trim(),
+        quantity: 1,
+        unitPriceCents: -discount,
+      });
     }
-    const intent = await stripe.paymentIntents.create({
-      amount: total,
-      currency: "eur",
-      automatic_payment_methods: { enabled: true },
-      metadata: { orderId: order.id, orderNumber: order.orderNumber },
-    });
-    await prisma.order.update({
-      where: { id: order.id },
-      data: { paymentIntentId: intent.id },
+    if (shipping > 0) {
+      cartLines.push({
+        article: "Доставка Еконт",
+        quantity: 1,
+        unitPriceCents: shipping,
+      });
+    }
+    const form = buildPurchaseForm(mypos, {
+      orderId: order.id,
+      currency: "EUR",
+      lines: cartLines,
+      urlOk: `${origin}/api/mypos/return?result=ok`,
+      urlCancel: `${origin}/api/mypos/return?result=cancel`,
+      urlNotify: `${origin}/api/mypos/notify`,
+      note: `Поръчка ${order.orderNumber}`,
     });
     return {
       ok: true,
       orderId: order.id,
       orderNumber: order.orderNumber,
-      clientSecret: intent.client_secret ?? undefined,
+      redirect: form,
     };
   }
 

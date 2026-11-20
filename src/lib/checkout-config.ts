@@ -40,11 +40,6 @@ export function shippingCents(subtotalCents: number): number {
 }
 
 /** Feature flags derived from environment configuration. */
-export const stripeEnabled = Boolean(
-  process.env.STRIPE_SECRET_KEY &&
-    process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY,
-);
-
 export const econtEnabled = Boolean(
   process.env.ECONT_USERNAME && process.env.ECONT_PASSWORD,
 );
